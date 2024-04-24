@@ -1,0 +1,78 @@
+build the database
+
+
+// User
+CREATE TYPE role AS ENUM ('admin', 'customer');
+
+CREATE TABLE users(
+id serial PRIMARY KEY,
+full_name varchar(50) NOT NULL,
+phone char(10) NOT NULL,
+email varchar(50) NOT NULL,
+password varchar(50) NOT NULL,
+role role
+);
+
+//Address
+CREATE TYPE address_type AS ENUM ('home1', 'home2');
+
+CREATE TABLE address(
+id serial PRIMARY KEY,
+user_id integer REFERENCES users(id) NOT NULL,
+country varchar(20) NOT NULL,
+city varchar(50) NOT NULL,
+street varchar(50) NOT NULL,
+zipcode varchar(50) NOT NULL,
+type address_type
+);
+
+//Shipper
+
+CREATE TABLE shippers(
+id serial PRIMARY KEY,
+name varchar(50) NOT NULL
+);
+
+//Order
+CREATE TYPE order_status AS ENUM ('done', 'progress');
+
+CREATE TABLE orders(
+id serial PRIMARY KEY,
+user_id integer REFERENCES users(id),
+shipper_id integer REFERENCES shippers(id),
+address_id integer REFERENCES address(id),
+status order_status,
+order_date TIMESTAMP  NOT NULL,
+total_price decimal(10, 2)  NOT NULL
+);
+
+//Categorie
+
+CREATE TABLE categories(
+id serial PRIMARY KEY,
+name varchar(20) NOT NULL,
+description varchar(200) NOT NULL
+);
+
+//Product
+
+CREATE TABLE products(
+id serial PRIMARY KEY,
+categorie_id integer REFERENCES categories(id),
+name varchar(50) NOT NULL,
+image varchar(250) NOT NULL,
+price decimal(10, 2)  NOT NULL,
+quantity integer NOT NULL,
+description varchar(100) NOT NULL
+);
+
+//Order Item
+
+CREATE TABLE orderItems(
+id serial PRIMARY KEY,
+order_id integer REFERENCES orders(id),
+product_id integer REFERENCES products(id),
+quantity integer NOT NULL,
+unit_price decimal(10, 2)  NOT NULL
+);
+
