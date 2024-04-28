@@ -23,10 +23,9 @@ public class DatabaseContext
         ];
 
         Category = [
-            new Category("a","Outdoor","plants that are grown outside, in the ground"),
+            new Category("A","Outdoor","plants that are grown outside, in the ground"),
             new Category("B","Indoor ","plants that are grown inside"),
-          new Category("c","Indoor ","plants that are grown inside"),
-        new Category("d","Outdoor","plants that are grown outside, in the ground"),
+        
 
 
 
