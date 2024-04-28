@@ -3,13 +3,10 @@ using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
-
-[ApiController]
-[Route("api/v1/[controller]")]
-public class TestController : ControllerBase
+public class UserController : BaseController
 {
     private List<User> _users;
-    public TestController()
+    public UserController()
     {
         _users = new DatabaseContext().Users;
     }
@@ -18,6 +15,7 @@ public class TestController : ControllerBase
     {
         return _users;
     }
+    [HttpGet("{id}")]
     public User? FindOne(string id)
     {
         User? user = _users.FirstOrDefault((user) => user.Id == id);
@@ -28,6 +26,18 @@ public class TestController : ControllerBase
     {
         _users.Add(user);
         return _users;
+    }
+    [HttpPatch]
+    public User? UpdateOne(string email, User user)
+    {
+        _users.Select(user => user.Id);
+        return user;
+    }
+    [HttpDelete]
+    public User? DeleteOne(string id,User user)
+    {
+        _users.Where(user => user.Id == id);
+        return user;
     }
 
 }

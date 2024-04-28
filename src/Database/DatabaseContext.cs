@@ -15,11 +15,12 @@ public class DatabaseContext
             new Product("44","a","Orchid",18,"link4",180,"Graceful and exotic, the orchid enchants with its delicate blooms and elegant allure, infusing any setting with a touch of sophistication and natural splendor."),
         ];
         Users = [
-            new User("1","Raghad","1111"),
-            new User("2","Shama","2222"),
-            new User("3","Omnia","3333"),
-            new User("4","Sara","4444"),
+            new User("1224567","Raghad Alghunaim","575870","0568890978","raghad@gmail.com","admin"),
+            new User("1228902","Shama Alzhalidi","454353","0568843467","shama@gmail.com","customer"),
+            new User("1323243","Omnia AlZahrani","455350","0542296512","omnia@gmail.com","customer"),
+            new User("1004394","Sara Alanzi","345900","0564459812","sara@gmail.com","customer"),
         ];
+
     }
 }
 
