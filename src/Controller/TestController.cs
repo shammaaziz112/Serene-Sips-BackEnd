@@ -13,4 +13,21 @@ public class TestController : ControllerBase
     {
         _users = new DatabaseContext().Users;
     }
+    [HttpGet]
+    public List<User> FindAll()
+    {
+        return _users;
+    }
+    public User? FindOne(string id)
+    {
+        User? user = _users.FirstOrDefault((user) => user.Id == id);
+        return user;
+    }
+    [HttpPost]
+    public List<User> CreateOne([FromBody] User user)
+    {
+        _users.Add(user);
+        return _users;
+    }
+
 }
