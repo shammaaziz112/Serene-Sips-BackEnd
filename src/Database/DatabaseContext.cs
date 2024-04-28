@@ -6,6 +6,7 @@ public class DatabaseContext
 {
     public List<User> Users;
     public List<Product> Products;
+    public List<Category> Category;
     public DatabaseContext()
     {
         Products = [
@@ -21,6 +22,11 @@ public class DatabaseContext
             new User("1004394","Sara Alanzi","345900","0564459812","sara@gmail.com","customer"),
         ];
 
+        Category = [
+            new Category("A","Outdoor","plants that are grown outside, in the ground"),
+            new Category("B","Indoor ","plants that are grown inside"),
+    
+        ];
     }
 }
 
