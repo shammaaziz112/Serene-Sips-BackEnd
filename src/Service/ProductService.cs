@@ -2,40 +2,44 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 public class ProductService
 {
+    IEnumerable<Product> products;
 
-    public static List<Product> _products = new List<Product>();
-    public IEnumerable<Product> GetAllProducts()
+    public ProductService()
     {
-        return _products;
+        products = new DatabaseContext().Products;
     }
-    public Product GetProductById(string productId)
+
+
+    public IEnumerable<Product> FindAll()
     {
-        return _products.FirstOrDefault(product => product.Id == productId);
+        return products;
     }
-    public Product CreateProduct(Product newProduct)
+    public Product FindOne(Product product)
+    {
+        return products.FirstOrDefault(product => product.Id == product.Id);
+    }
+    public Product CreateOne(Product Product)
     {
 
-        return newProduct;
+        return Product;
     }
-    //public Product UpdateProduct(string productId, Product updateProduct)
-    //{    
-    //    }
-    public bool DeleteProduct(string productId)
+    public Product UpdateOne(string email, Product product)
     {
-        var productToRemove = _products.FirstOrDefault(product => product.Id == productId);
-        if (productToRemove != null)
-        {
-            _products.Remove(productToRemove);
-            return true;
-        }
-        return false;
+        return product;
     }
+    public IEnumerable<Product> DeleteAll(string id)
+    {
+        products.Where(product => product.Id == id);
+        return products;
+    }
+
 
 
 }
