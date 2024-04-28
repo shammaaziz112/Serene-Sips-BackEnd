@@ -25,10 +25,7 @@ public class DatabaseContext
         Category = [
             new Category("A","Outdoor","plants that are grown outside, in the ground"),
             new Category("B","Indoor ","plants that are grown inside"),
-        
-
-
-
+    
         ];
     }
 }
