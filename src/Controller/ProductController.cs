@@ -2,9 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
-namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-
-public class ProductController : ControllerBase
+namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
+[ApiController]
+[Route("api/[controller]")]
+public class ProductController : BaseController
 {
     public IEnumerable<Product> Products;
 
