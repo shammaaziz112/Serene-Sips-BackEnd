@@ -40,9 +40,4 @@ public class ProductService
         return _productRepository.DeleteAll(id);
     }
 
-
-
-
-
-
 }

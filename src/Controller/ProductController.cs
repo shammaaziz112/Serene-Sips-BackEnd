@@ -1,26 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
-namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
+namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 [ApiController]
 [Route("api/[controller]")]
-public class ProductController : ControllerBase
+public class ProductController : BaseController
 {
-    IEnumerable<Product> products;
+    public IEnumerable<Product> Products;
 
     public ProductController()
     {
-        products = new DatabaseContext().Products;
+        Products = new DatabaseContext().Products;
     }
     [HttpGet]
     public IEnumerable<Product> FindAll()
     {
-        return products;
+        return Products;
     }
     [HttpGet("{ProcdutId}")]
     public Product FindOne(Product product)
@@ -33,14 +29,14 @@ public class ProductController : ControllerBase
         return product;
     }
     [HttpPatch]
-    public Product UpdateOne(string email,Product product)
+    public Product UpdateOne(string email, Product product)
     {
         return product;
     }
     [HttpDelete]
     public IEnumerable<Product> DeleteAll(string id)
     {
-        products.Where(product => product.Id == id);
-        return products;
+        Products.Where(product => product.Id == id);
+        return Products;
     }
 }
