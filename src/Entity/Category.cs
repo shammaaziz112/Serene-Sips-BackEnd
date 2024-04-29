@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Entity
 {
-    public class Category
+    public class Category  
     {
         public string Id { get; set; }
         public string Name { get; set; }
