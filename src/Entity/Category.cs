@@ -7,9 +7,9 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Entity
 {
     public class Category
     {
-        string Id { get; set; }
-        string Name { get; set; }
-        string Description { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         public Category(string id, string name, string description)
         {
             Id = id;
