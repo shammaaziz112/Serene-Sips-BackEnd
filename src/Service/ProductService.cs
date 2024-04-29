@@ -4,42 +4,44 @@ using System.Linq;
 using System.Threading.Tasks;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 public class ProductService
 {
-    IEnumerable<Product> products;
-
-    public ProductService()
+    public IEnumerable<Product> products;
+    private ProductRepository _productRepository;
+    public ProductService(ProductRepository productRepository)
     {
+        _productRepository = productRepository;
         products = new DatabaseContext().Products;
     }
 
 
-    public IEnumerable<Product> FindAll()
+    public IEnumerable<Product> FindAll(Product product)
     {
-        return products;
+        return _productRepository.FindAll();
     }
     public Product FindOne(Product product)
     {
-        return products.FirstOrDefault(product => product.Id == product.Id);
+        return _productRepository.FindOne(product);
     }
     public Product CreateOne(Product Product)
     {
-
-        return Product;
+        return _productRepository.CreateOne(Product);
     }
-    public Product UpdateOne(string email, Product product)
+    public Product UpdateOne(Product product)
     {
-        return product;
+        return _productRepository.UpdateOne(product);
     }
     public IEnumerable<Product> DeleteAll(string id)
     {
-        products.Where(product => product.Id == id);
-        return products;
+        return _productRepository.DeleteAll(id);
     }
 
 
 
+
+    
 }
