@@ -6,38 +6,50 @@ using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
-namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
+namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
+
+public class CategoryRepository
 {
-    public class CategoryRepository
-    {
-        IEnumerable <Category> category;
+    public IEnumerable<Category> category { get; }
+    private IEnumerable<Category> _category;
     public CategoryRepository()
     {
-        category= new DatabaseContext().Category;
+        _category = new DatabaseContext().Category;
     }
     public IEnumerable<Category> FindAll()
     {
         return category;
     }
-    public Category FindOne(Category category)
+    public Category? FindOne(string name)
     {
-        return category;
+        return _category.FirstOrDefault((item) => item.Name == name);
     }
 
-    public Category CreateOne(Category Category)
+    public Category CreateOne(Category newCategory)
     {
-        return Category;
+        _category.Append(newCategory);
+        return newCategory;
     }
-    public Category UpdateOne(Category Category)
+    public Category UpdateOne(Category UpdateCategory)
     {
-        return Category;
-    }
-    public IEnumerable<Category> DeleteAll(string id)
-    {
-        category.Where(category => category.Id == id);
-        return category;
-    }
+        var category = _category.Select(category =>
+     {
+         if (category.Name == UpdateCategory.Name)
+         {
+             return UpdateCategory;
+         }
+         return category;
+     });
+        _category = category.ToList();
 
-        
+        return UpdateCategory;
+    }
+    public IEnumerable<Category> DeleteOne(string id)
+    {
+        _category.Where(category => category.Id == id);
+        return _category;
     }
 }
+
+
+

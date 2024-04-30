@@ -9,7 +9,7 @@ public class DatabaseContext
     public List<Product> Products;
     public List<Category> Category;
     public List<Order> Orders;
-    public List<Address> Addresses;
+    public List<OrderItem> OrderItem;
     public DatabaseContext()
     {
         Products = [
@@ -33,10 +33,11 @@ public class DatabaseContext
             new Order("O2","1004394","ff","delivered",new DateTime(),182),
             new Order("O3","1228902","kk","Shipped",new DateTime(),182),
         ];
-        Addresses = [
-            new Address("12356329887","1323243","Spain","Barcelona","san de moo","7789"),
-            new Address("1123598543","1004094","Qatar","Qatar","Alshaki salem","5450"),
-            new Address("1008754242","1228602","Saudi Arabia","Riyadh","MBS Street","2030"),
+        OrderItem = [
+            new OrderItem("11","111","331",4,6.5),
+            new OrderItem("22","114","323",4,9.5),
+            new OrderItem("33","113","393",3,8.5),
         ];
+
     }
 }
