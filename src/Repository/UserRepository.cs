@@ -8,34 +8,33 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-public class UserReository : IUserRepository
+public class UserRepository : IUserRepository
 {
-    private IEnumerable<User> users;
-    private List<User> _users;
+    public IEnumerable<User> Users;
 
-    public UserReository()
+    public UserRepository()
     {
-        users = new DatabaseContext().Users;
+        Users = new DatabaseContext().Users;
     }
-    public List<User> FindAll()
+    public IEnumerable<User> FindAll()
     {
-        return _users;
+        return Users;
     }
 
     public User CreateOne(User user)
     {
-        _users.Add(user);
+        Users.Append(user);
         return user;
     }
     public User? FindOneByEmail(string email)
     {
-        User? user = _users.FirstOrDefault(user => user.Email == email);
+        User? user = Users.FirstOrDefault(user => user.Email == email);
         return user;
     }
 
     public User UpdateOne(User updatedUser)
     {
-        var users = _users.Select(user =>
+        var users = Users.Select(user =>
          {
              if (user.Email == updatedUser.Email)
              {
@@ -43,7 +42,7 @@ public class UserReository : IUserRepository
              }
              return user;
          });
-        _users = users.ToList();
+        Users = users.ToList();
 
         return updatedUser;
     }
