@@ -40,7 +40,3 @@ public class DatabaseContext
         ];
     }
 }
-
-public class Address
-{
-}
