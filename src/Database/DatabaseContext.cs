@@ -8,6 +8,7 @@ public class DatabaseContext
     public List<Product> Products;
     public List<Category> Category;
     public List<Order> Orders;
+    public List<OrderItem> OrderItem;
     public DatabaseContext()
     {
         Products = [
@@ -31,6 +32,12 @@ public class DatabaseContext
             new Order("O1","1323243","pp","Shipped",new DateTime(),182),
             new Order("O2","1004394","ff","delivered",new DateTime(),182),
             new Order("O3","1228902","kk","Shipped",new DateTime(),182),
+        ];
+        OrderItem = [
+            new OrderItem("11","111","331",4,6.5),
+            new OrderItem("22","114","323",4,9.5),
+            new OrderItem("33","113","393",3,8.5),
+
         ];
     }
 }
