@@ -10,7 +10,7 @@ public class DatabaseContext
     public List<Category> Category;
     public List<Order> Orders;
     public List<Address> Addresses;
-    public List<OrderItem> orderItems;
+    public List<OrderItem> OrderItems;
     public DatabaseContext()
     {
         Products = [
@@ -43,5 +43,6 @@ public class DatabaseContext
             new OrderItem("11","111","331",4,6.5),
             new OrderItem("22","114","323",4,9.5),
             new OrderItem("33","113","393",3,8.5),
+        ];
     }
 }
