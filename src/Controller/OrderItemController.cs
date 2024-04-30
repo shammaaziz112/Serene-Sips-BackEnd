@@ -14,39 +14,39 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
     {
         IEnumerable<OrderItem> orderitem;
 
-        public  OrderItemController()
-    {
-        orderitem = new DatabaseContext().OrderItem;
-    }
+        public OrderItemController()
+        {
+            orderitem = new DatabaseContext().OrderItem;
+        }
 
 
-    [HttpGet]
-    public IEnumerable<OrderItem> FindAll()
-    {
-        return orderitem;
-    }
-    [HttpGet("{OrderItemId}")]
-    public OrderItem FindOne(OrderItem orderitem)
-    {
-        return orderitem;
-    }
-    [HttpPost]
-    public OrderItem CreateOne(OrderItem orderitem)
-    {
-        return orderitem;
-    }
-    [HttpPatch]
-    public OrderItem UpdateOne(OrderItem orderitem)
-    {
-        return orderitem;
-    }
-    [HttpDelete]
-    public IEnumerable<OrderItem> DeleteAll(string id)
-    {
-        orderitem.Where(orderitem => orderitem.Id == id);
-        return orderitem;
-    }
-    
+        [HttpGet]
+        public IEnumerable<OrderItem> FindAll()
+        {
+            return orderitem;
+        }
+        [HttpGet("{OrderItemId}")]
+        public OrderItem FindOne(OrderItem orderitem)
+        {
+            return orderitem;
+        }
+        [HttpPost]
+        public OrderItem CreateOne(OrderItem orderitem)
+        {
+            return orderitem;
+        }
+        [HttpPatch]
+        public OrderItem UpdateOne(OrderItem orderitem)
+        {
+            return orderitem;
+        }
+        [HttpDelete]
+        public IEnumerable<OrderItem> DeleteOne(string id)
+        {
+            orderitem.Where(orderitem => orderitem.Id == id);
+            return orderitem;
+        }
+
 
 
     }

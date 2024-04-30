@@ -10,7 +10,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
 {
     public class OrderItemRepository
     {
-        IEnumerable<OrderItem> orderitem;
+        public IEnumerable<OrderItem> orderitem { get; }
+        private IEnumerable<OrderItem> _orderitem;
 
         public OrderItemRepository()
         {
@@ -21,23 +22,34 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
         {
             return orderitem;
         }
-        public OrderItem FindOne(OrderItem orderitem)
+        public OrderItem FindOne(string id)
         {
-            return orderitem;
+            return _orderitem.FirstOrDefault((item) => item.Id == id);
         }
         public OrderItem CreateOne(OrderItem orderitem)
         {
+            _orderitem.Append(orderitem);
             return orderitem;
         }
-        public OrderItem UpdateOne(OrderItem orderitem)
+        public OrderItem UpdateOne(OrderItem UpdateOrderitem)
         {
+            var orderitem = _orderitem.Select(orderitem =>
+     {
+         if (orderitem.Id == orderitem.Id)
+         {
+             return UpdateOrderitem;
+         }
+         return orderitem;
+     });
+            _orderitem = orderitem.ToList();
+
+            return UpdateOrderitem;
+        }
+        public IEnumerable<OrderItem> DeleteOne(string id)
+        {
+            orderitem.Where(orderitem => orderitem.Id == id);
             return orderitem;
         }
-        public IEnumerable<OrderItem> DeleteAll(string id)
-    {
-        orderitem.Where(orderitem => orderitem.Id == id);
-        return orderitem;
-    }
 
 
 

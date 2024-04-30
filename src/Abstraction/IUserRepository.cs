@@ -6,10 +6,10 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 
-    public interface IUserRepository
-    {
-        public List<User> FindAll();
-        public User CreateOne(User user);
-        public User? FindOneByEmail(string email);
-        public User UpdateOne(User updatedUser);
-    }
+public interface IUserRepository
+{
+    public IEnumerable<User> FindAll();
+    public User CreateOne(User user);
+    public User? FindOneByEmail(string email);
+    public User UpdateOne(User updatedUser);
+}

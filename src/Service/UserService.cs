@@ -7,7 +7,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
-
+//Map 
 public class UserService : IUserService
 {
     public IEnumerable<User> users;
@@ -15,9 +15,9 @@ public class UserService : IUserService
     {
         users = new DatabaseContext().Users;
     }
-    public List<User> FindAll()
+    public IEnumerable<User> FindAll()
     {
-        return (List<User>)users;
+        return users;
     }
 
     public User? FindOne(string id)
@@ -44,18 +44,4 @@ public class UserService : IUserService
         return user;
     }
 
-    public List<User> FindOne()
-    {
-        throw new NotImplementedException();
-    }
-
-    public User? DeleteOne(string email)
-    {
-        throw new NotImplementedException();
-    }
-
-    public User UpdateOne(string id)
-    {
-        throw new NotImplementedException();
-    }
 }
