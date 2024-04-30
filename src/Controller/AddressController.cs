@@ -3,44 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 public class AddressController : BaseController
 {
-    private List<Address> _address;
-    public AddressController()
+    private IAddressService _addressService;
+    public AddressController(IAddressService addressService)
     {
-        _address = new DatabaseContext().Address;
+        _addressService = addressService;
     }
     [HttpGet("{street}")]
     public Address? FindOne(string street)
     {
-        Address? address = _address.FirstOrDefault((address) => address.Street == street);
-        return address;
+        return _addressService.FindOne(street);
     }
     [HttpGet]
-    public List<Address> FindAll()
+    public IEnumerable<Address> FindAll()
     {
-        return _address;
+
+        return _addressService.FindAll();
     }
     [HttpPost]
     public Address? CreateOne([FromBody] Address address)
     {
-        _address.Add(address);
+        _addressService.CreateOne(address);
         return address;
     }
     [HttpPatch("{city}")]
-    public Address? UpdateOne(string city, Address address)
+    public Address? UpdateOne(string country, Address address)
     {
-        _address.Select(address => address.City);
+        _addressService.UpdateOne(country, address);
         return address;
     }
-    [HttpDelete("{zip_code}")]
-    public Address? DeleteOne(string zip_code, Address address)
+    [HttpDelete("{street}")]
+    public Address? DeleteOne(string street, Address address)
     {
-        _address.Where(address => address.Zip_code == zip_code);
+        _addressService.DeleteOne(street, address);
         return address;
     }
 }
