@@ -39,10 +39,8 @@ public class OrderController : BaseController
             return CreatedAtAction(nameof(CreateOne), createdUser);
         }
         return BadRequest();
-
     }
-
-    [HttpPatch("{email}")]
+    [HttpPatch("{id}")]
     public Order UpdateOne(string id, [FromBody] Order order)
     {
         Order updatedOrder = _orderService.UpdateOne(id, order);
