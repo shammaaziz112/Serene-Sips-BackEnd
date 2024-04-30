@@ -10,34 +10,40 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
 {
     public class CategoryRepository
     {
-        IEnumerable <Category> category;
-    public CategoryRepository()
-    {
-        category= new DatabaseContext().Category;
-    }
-    public IEnumerable<Category> FindAll()
-    {
-        return category;
-    }
-    public Category FindOne(Category category)
-    {
-        return category;
-    }
+        public IEnumerable<Category> category;
+        private IEnumerable<Category> _category;
+        public CategoryRepository()
+        {
+            _category = new DatabaseContext().Category;
+        }
+        public IEnumerable<Category> FindAll()
+        {
+            return category;
+        }
+        public Category? FindOne(string name)
+        {
+            // remember to check nullable item, if it is null, return null, or else return object
+            return _category.FirstOrDefault((item) => item.Name == name);
+        }
 
-    public Category CreateOne(Category Category)
-    {
-        return Category;
-    }
-    public Category UpdateOne(Category Category)
-    {
-        return Category;
-    }
-    public IEnumerable<Category> DeleteAll(string id)
-    {
-        category.Where(category => category.Id == id);
-        return category;
-    }
+        public Category CreateOne(Category newCategory)
+        {
+            _category.Append(newCategory);
+            return newCategory;
+        }
+        public Category UpdateOne(Category UpdateCategory)
+        {
+            // recording for the way to handle update category
 
-        
+
+            return UpdateCategory;
+        }
+        public IEnumerable<Category> DeleteAll(string id)
+        {
+            category.Where(category => category.Id == id);
+            return category;
+        }
+
+
     }
 }

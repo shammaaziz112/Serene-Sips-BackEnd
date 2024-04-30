@@ -1,40 +1,59 @@
 using Microsoft.AspNetCore.Mvc;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+using sda_onsite_2_csharp_backend_teamwork.src.Service;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controllerl;
 
 public class OrderController : BaseController
 {
-    public IEnumerable<Order> Orders;
-    public OrderController()
+    private IOrderService _orderService;
+
+    public OrderController(IOrderService orderService)
     {
-        Orders = new DatabaseContext().Orders;
+        _orderService = orderService;
     }
+
     [HttpGet]
     public IEnumerable<Order> FindAll()
     {
-        return;
+        return _orderService.FindAll();
     }
+
     [HttpGet("{OrderId}")]
-    public Order FindOne(Order order)
+    public Order? FindOne(Order order)
     {
-        return;
+        return _orderService.FindOne(order);
     }
+
     [HttpPost]
-    public Order CreateOne(Order order)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<Order> CreateOne([FromBody] Order order)
     {
-        return;
+        // PS. when you create a resource you should return that new resrouce only
+        if (order is not null)
+        {
+            var createdUser = _orderService.CreateOne(order);
+            return CreatedAtAction(nameof(CreateOne), createdUser);
+        }
+        return BadRequest();
+
     }
-    [HttpPatch]
-    public Order UpdateOne(string email, Order order)
+
+    [HttpPatch("{email}")]
+    public Order UpdateOne(string id, [FromBody] Order order)
     {
-        return;
+        Order updatedOrder = _orderService.UpdateOne(id, order);
+        return updatedOrder;
     }
-    [HttpDelete]
-    public IEnumerable<Order> DeleteAll(string id)
+
+    [HttpDelete("{id}")]
+    public IEnumerable<Order> DeleteOne(string id)
     {
-        return;
+        return _orderService.DeleteOne(id);
+
     }
 }

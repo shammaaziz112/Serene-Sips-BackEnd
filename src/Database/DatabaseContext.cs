@@ -1,4 +1,5 @@
 
+using System.Net;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Database;
@@ -23,7 +24,6 @@ public class DatabaseContext
             new User("1323243","Omnia AlZahrani","455350","0542296512","omnia@gmail.com","customer"),
             new User("1004394","Sara Alanzi","345900","0564459812","sara@gmail.com","customer"),
         ];
-
         Category = [
             new Category("A","Outdoor","plants that are grown outside, in the ground"),
             new Category("B","Indoor ","plants that are grown inside"),
@@ -37,10 +37,8 @@ public class DatabaseContext
             new OrderItem("11","111","331",4,6.5),
             new OrderItem("22","114","323",4,9.5),
             new OrderItem("33","113","393",3,8.5),
-
         ];
+
     }
 }
-
-
 
