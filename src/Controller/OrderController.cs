@@ -33,7 +33,6 @@ public class OrderController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<Order> CreateOne([FromBody] Order order)
     {
-        // PS. when you create a resource you should return that new resrouce only
         if (order is not null)
         {
             var createdUser = _orderService.CreateOne(order);
