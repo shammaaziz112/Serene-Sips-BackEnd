@@ -33,6 +33,8 @@ public class DatabaseContext
             new Order("O3","1228902","kk","Shipped",new DateTime(),182),
         ];
     }
+
+    public List<Address>? Address { get; internal set; }
 }
 
 
