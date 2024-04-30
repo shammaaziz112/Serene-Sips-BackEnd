@@ -8,16 +8,16 @@ using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-public class ProductRepository 
+public class ProductRepository
 {
-    IEnumerable<Product> products;
+    public IEnumerable<Product> Products;
     public ProductRepository()
     {
-        products = new DatabaseContext().Products;
+        Products = new DatabaseContext().Products;
     }
     public IEnumerable<Product> FindAll()
     {
-        return products;
+        return Products;
     }
     public Product FindOne(Product product)
     {
@@ -34,8 +34,8 @@ public class ProductRepository
     }
     public IEnumerable<Product> DeleteAll(string id)
     {
-        products.Where(product => product.Id == id);
-        return products;
+        Products.Where(product => product.Id == id);
+        return Products;
     }
 
 }

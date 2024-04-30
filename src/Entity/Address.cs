@@ -21,18 +21,4 @@ public class Address
         Street = street;
         Zip_code = zip_code;
     }
-// Addresses = [
-//             new Address("12356329887","1323243","Spain","Barcelona","san de moo","7789"),
-//             new Address("1123598543","1004094","Qatar","Qatar","Alshaki salem","5450"),
-//             new Address("1008754242","1228602","Saudi Arabia","Riyadh","MBS Street","2030"),
-//         ];
-    internal Address? FirstOrDefault(Func<object, bool> value)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void Select(Func<object, object> value)
-    {
-        throw new NotImplementedException();
-    }
 }

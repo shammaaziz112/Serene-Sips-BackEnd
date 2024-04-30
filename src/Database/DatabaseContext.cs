@@ -1,4 +1,5 @@
 
+using System.Net;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Database;
@@ -8,6 +9,7 @@ public class DatabaseContext
     public List<Product> Products;
     public List<Category> Category;
     public List<Order> Orders;
+    public List<Address> Addresses;
     public DatabaseContext()
     {
         Products = [
@@ -22,7 +24,6 @@ public class DatabaseContext
             new User("1323243","Omnia AlZahrani","455350","0542296512","omnia@gmail.com","customer"),
             new User("1004394","Sara Alanzi","345900","0564459812","sara@gmail.com","customer"),
         ];
-
         Category = [
             new Category("A","Outdoor","plants that are grown outside, in the ground"),
             new Category("B","Indoor ","plants that are grown inside"),
@@ -32,8 +33,14 @@ public class DatabaseContext
             new Order("O2","1004394","ff","delivered",new DateTime(),182),
             new Order("O3","1228902","kk","Shipped",new DateTime(),182),
         ];
+        Addresses = [
+            new Address("12356329887","1323243","Spain","Barcelona","san de moo","7789"),
+            new Address("1123598543","1004094","Qatar","Qatar","Alshaki salem","5450"),
+            new Address("1008754242","1228602","Saudi Arabia","Riyadh","MBS Street","2030"),
+        ];
     }
 }
 
-
-
+public class Address
+{
+}
