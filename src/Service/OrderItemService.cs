@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
@@ -16,19 +17,20 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 
         public OrderItemService(OrderItemRepository orderItemRepository)
         {
-            _OrderItemRepository=orderItemRepository;
-            orderitem=new DatabaseContext().OrderItem;
+            _OrderItemRepository = orderItemRepository;
+            orderitem = new DatabaseContext().OrderItems;
 
 
         }
-        public IEnumerable<OrderItem> FindAll(OrderItem orderitem)
-
+        public IEnumerable<OrderItem> FindAll()
         {
             return _OrderItemRepository.FindAll();
         }
-        public OrderItem FindOne(OrderItem orderitem)
+        [HttpGet("{orderId}")]
+
+        public OrderItem FindOne(string orderId)
         {
-            return _OrderItemRepository.FindOne(orderitem);
+            return _OrderItemRepository.FindOne(orderId);
         }
         public OrderItem CreateOne(OrderItem orderitem)
         {
@@ -38,12 +40,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         {
             return _OrderItemRepository.UpdateOne(orderitem);
         }
-            public IEnumerable<OrderItem> DeleteAll(string id)
+        public bool DeleteAll(string id)
         {
-            return  _OrderItemRepository.DeleteAll(id);
+        return    _OrderItemRepository.DeleteOne(id);
         }
-
-
-
-    }
-}
+}}
