@@ -20,6 +20,7 @@ public class UserController : BaseController
     }
 
     [HttpGet("{UserId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public ActionResult<User?> FindOne(string userId)
     {
         return Ok(_userService.FindOne(userId));

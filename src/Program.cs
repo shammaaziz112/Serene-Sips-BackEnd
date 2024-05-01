@@ -19,6 +19,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
 app.UseHttpsRedirection();
 
 app.MapControllers();

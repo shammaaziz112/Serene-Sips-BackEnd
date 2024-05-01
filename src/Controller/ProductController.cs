@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
@@ -14,20 +15,20 @@ public class ProductController : BaseController
         _productService = productService;
     }
     [HttpGet]
-    public IEnumerable<Product> FindAll()
+    public IEnumerable<ProductReadDto> FindAll()
     {
         return _productService.FindAll();//Service 
     }
     [HttpGet("{name}")]
-    public Product? FindOne(string name)
+    public ProductReadDto? FindOne(string name)
     {
-        Product? foundProduct = _productService.FindOne(name);
+        ProductReadDto? foundProduct = _productService.FindOne(name);
         return foundProduct;
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Product> CreateOne([FromBody] Product product)
+    public ActionResult<ProductReadDto> CreateOne([FromBody] Product product)
     {
         if (product is not null)
         {
@@ -38,9 +39,9 @@ public class ProductController : BaseController
 
     }
     [HttpPatch]
-    public Product UpdateOne([FromBody] Product updatedProduct)
+    public ProductReadDto UpdateOne([FromBody] Product updatedProduct)
     {
-        Product product = _productService.UpdateOne(updatedProduct);
+        ProductReadDto product = _productService.UpdateOne(updatedProduct);
         return product;
     }
     [HttpDelete]

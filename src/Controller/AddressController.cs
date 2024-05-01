@@ -49,7 +49,7 @@ public class AddressController : BaseController
     public ActionResult DeleteOne(string id, Address address)
     {
         bool isDeleted = _addressService.DeleteOne(id);
-        if (! isDeleted)
+        if (!isDeleted)
         {
             return NotFound();
         }
