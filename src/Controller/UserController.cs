@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Service;
 
@@ -14,43 +15,45 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    public IEnumerable<User> FindAll()
+    public IEnumerable<UserReadDto> FindAll()
     {
         return _userService.FindAll();
     }
 
     [HttpGet("{UserId}")]
-    public ActionResult<User?> FindOne(string userId)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public ActionResult<UserReadDto?> FindOne(string userId)
     {
-        return Ok(_userService.FindOne(userId));
+
+        UserReadDto? foundProduct = _userService.FindOne(userId);
+        return Ok(foundProduct);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<IEnumerable<User>> CreateOne([FromBody] User user)
+    public ActionResult<IEnumerable<UserReadDto>> CreateOne([FromBody] User user)
     {
         if (user is not null)
         {
             var createdUser = _userService.CreateOne(user);
             return CreatedAtAction(nameof(CreateOne), createdUser);
         }
-        else return BadRequest();
+        return BadRequest();
     }
 
     [HttpPatch("{UserId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<User> UpdateOne(string email, User user)
+    public ActionResult<UserReadDto> UpdateOne(string email, User user)
     {
-        User? updatedUser = _userService.UpdateOne(email, user);
+        UserReadDto? updatedUser = _userService.UpdateOne(email, user);
         if (updatedUser is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedUser);
         }
         else return BadRequest();
     }
-
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -63,5 +66,4 @@ public class UserController : BaseController
         }
         return NoContent();
     }
-
 }

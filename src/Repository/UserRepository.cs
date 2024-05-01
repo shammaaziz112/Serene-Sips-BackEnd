@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -10,31 +6,31 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class UserRepository : IUserRepository
 {
-    public IEnumerable<User> Users;
+    private IEnumerable<User> _users { get; set; }
 
     public UserRepository()
     {
-        Users = new DatabaseContext().Users;
+        _users = new DatabaseContext().Users;
     }
     public IEnumerable<User> FindAll()
     {
-        return Users;
+        return _users;
     }
 
     public User CreateOne(User user)
     {
-        Users.Append(user);
+        _users.Append(user);
         return user;
     }
     public User? FindOne(string email)
     {
-        User? user = Users.FirstOrDefault(user => user.Email == email);
+        User? user = _users.FirstOrDefault(user => user.Email == email);
         return user;
     }
 
     public User UpdateOne(User updatedUser)
     {
-        var users = Users.Select(user =>
+        var users = _users.Select(user =>
          {
              if (user.Email == updatedUser.Email)
              {
@@ -42,7 +38,7 @@ public class UserRepository : IUserRepository
              }
              return user;
          });
-        Users = users.ToList();
+        _users = users.ToList();
 
         return updatedUser;
     }
@@ -51,8 +47,8 @@ public class UserRepository : IUserRepository
         User? user = FindOne(id);
         if (user is null) return false;
 
-            var users = Users.Where(user => user.Id != id);
-            Users = users;
+            var users = _users.Where(user => user.Id != id);
+            _users = users;
             return true;
     }
 }

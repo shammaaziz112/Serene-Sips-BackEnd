@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 public class AddressController : BaseController
@@ -15,13 +12,14 @@ public class AddressController : BaseController
     }
 
     [HttpGet("{AddressId}")]
-    public ActionResult<Address?> FindOne(string id)
+    public ActionResult<AddressReadDto?> FindOne(string id)
     {
-        return Ok(_addressService.FindOne(id));
+        AddressReadDto? foundAddress = _addressService.FindOne(id);
+        return Ok(foundAddress);
     }
 
     [HttpGet]
-    public IEnumerable<Address> FindAll()
+    public IEnumerable<AddressReadDto> FindAll()
     {
         return _addressService.FindAll();
     }
@@ -29,15 +27,14 @@ public class AddressController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public Address? CreateOne([FromBody] Address address)
+    public AddressReadDto? CreateOne([FromBody] Address address)
     {
-        _addressService.CreateOne(address);
-        return address;
+        return _addressService.CreateOne(address);
     }
     [HttpPatch("{city}")]
-    public ActionResult<Address> UpdateOne(string id, Address address)
+    public ActionResult<AddressReadDto> UpdateOne(string id, Address address)
     {
-        Address? updatedAddress = _addressService.UpdateOne(id, address);
+        AddressReadDto? updatedAddress = _addressService.UpdateOne(id, address);
         if (updatedAddress is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedAddress);
@@ -49,7 +46,7 @@ public class AddressController : BaseController
     public ActionResult DeleteOne(string id, Address address)
     {
         bool isDeleted = _addressService.DeleteOne(id);
-        if (! isDeleted)
+        if (!isDeleted)
         {
             return NotFound();
         }

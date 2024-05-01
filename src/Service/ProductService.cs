@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
@@ -11,30 +13,37 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 public class ProductService : IProductService
 {
-    public IEnumerable<Product> products;
     private ProductRepository _productRepository;
-    public ProductService(ProductRepository productRepository)
+    private IMapper _mapper;
+    public ProductService(ProductRepository productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
-        products = new DatabaseContext().Products;
+        _mapper = mapper;
     }
 
-
-    public IEnumerable<Product> FindAll()
+    public IEnumerable<ProductReadDto> FindAll()
     {
-        return _productRepository.FindAll();
+        var products = _productRepository.FindAll();
+        var productRead = products.Select(_mapper.Map<ProductReadDto>);
+        return productRead;
     }
-    public Product? FindOne(string name)
+    public ProductReadDto? FindOne(string name)
     {
-        return _productRepository.FindOne(name);
+        Product? product = _productRepository.FindOne(name);
+        ProductReadDto? productRead = _mapper.Map<ProductReadDto>(product);
+        return productRead;
     }
-    public Product CreateOne(Product Product)
+    public ProductReadDto CreateOne(Product Product)
     {
-        return _productRepository.CreateOne(Product);
+        var product = _productRepository.CreateOne(Product);
+        var productRead = _mapper.Map<ProductReadDto>(product);
+        return productRead;
     }
-    public Product UpdateOne(Product product)
+    public ProductReadDto UpdateOne(Product product)
     {
-        return _productRepository.UpdateOne(product);
+        var productAllInfo = _productRepository.UpdateOne(product);
+        var productRead = _mapper.Map<ProductReadDto>(productAllInfo);
+        return productRead;
     }
     public void DeleteOne(string id)
     {
