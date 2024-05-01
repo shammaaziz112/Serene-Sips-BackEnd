@@ -9,33 +9,36 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
 public class AddressService : IAddressService
 {
-    public IEnumerable<Address> Address;
-    public AddressService()
+    private IAddressRepository _addressRepository;
+    public AddressService(IAddressRepository addressRepository)
     {
-        Address = new DatabaseContext().Addresses;
+        _addressRepository = addressRepository;
     }
     public IEnumerable<Address> FindAll()
     {
-        return Address;
+        return _addressRepository.FindAll();
     }
-    public Address? FindOne(string street)
+    public Address? FindOne(string id)
     {
-        Address? foundAddress = Address.FirstOrDefault((address) => address.Street == street);
-        return foundAddress;
+        return _addressRepository.FindOne(id);
     }
     public Address CreateOne(Address address)
     {
-        Address.Append(address);
-        return address;
+        return _addressRepository.CreateOne(address);
     }
-    public Address? UpdateOne(string country, Address address)
+    public Address? UpdateOne(string id, Address address)
     {
-        Address.Select(address => address.Country);
-        return address;
+        Address? updatedAddress = _addressRepository.FindOne(id);
+        if (updatedAddress is not null)
+        {
+            updatedAddress.Country = address.Country;
+
+            return _addressRepository.UpdateOne(updatedAddress);
+        }
+        return null;
     }
-    public Address? DeleteOne(string street, Address address)
+    public bool DeleteOne(string id)
     {
-        Address.Where(address => address.Street == street);
-        return address;
+        return _addressRepository.DeleteOne(id);
     }
 }

@@ -9,8 +9,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 public interface IAddressService
 {
     public IEnumerable<Address> FindAll();
-    public Address? FindOne(string street);
+    public Address? FindOne(string id);
     public Address CreateOne(Address address);
-    public Address? UpdateOne(string country, Address address);
-    public Address? DeleteOne(string street, Address address);
+    public Address? UpdateOne(string id, Address address);
+    public bool DeleteOne(string id);
 }

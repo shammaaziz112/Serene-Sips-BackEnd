@@ -16,5 +16,8 @@
     <Content Include="src\Abstraction\IUserRepository.cs" />
     <Content Include="src\Repository\UserRepository.cs" />
     <Content Include="src\Controller\UserController.cs" />
+    <Content Include="src\Service\AddressService.cs" />
+    <Content Include="src\Repository\AddressRepository.cs" />
+    <Content Include="src\Abstraction\IAddressService.cs" />
   </ItemGroup>
 </Project>

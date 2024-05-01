@@ -13,33 +13,46 @@ public class AddressController : BaseController
     {
         _addressService = addressService;
     }
-    [HttpGet("{street}")]
-    public Address? FindOne(string street)
+
+    [HttpGet("{AddressId}")]
+    public ActionResult<Address?> FindOne(string id)
     {
-        return _addressService.FindOne(street);
+        return Ok(_addressService.FindOne(id));
     }
+
     [HttpGet]
     public IEnumerable<Address> FindAll()
     {
-
         return _addressService.FindAll();
     }
+
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public Address? CreateOne([FromBody] Address address)
     {
         _addressService.CreateOne(address);
         return address;
     }
     [HttpPatch("{city}")]
-    public Address? UpdateOne(string country, Address address)
+    public ActionResult<Address> UpdateOne(string id, Address address)
     {
-        _addressService.UpdateOne(country, address);
-        return address;
+        Address? updatedAddress = _addressService.UpdateOne(id, address);
+        if (updatedAddress is not null)
+        {
+            return CreatedAtAction(nameof(UpdateOne), updatedAddress);
+        }
+        return BadRequest();
     }
+
     [HttpDelete("{street}")]
-    public Address? DeleteOne(string street, Address address)
+    public ActionResult DeleteOne(string id, Address address)
     {
-        _addressService.DeleteOne(street, address);
-        return address;
+        bool isDeleted = _addressService.DeleteOne(id);
+        if (! isDeleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
     }
 }

@@ -46,15 +46,13 @@ public class UserRepository : IUserRepository
 
         return updatedUser;
     }
-    public IEnumerable<User>? DeleteOne(string id)
+    public bool DeleteOne(string id)
     {
         User? user = FindOne(id);
-        if (user is not null)
-        {
+        if (user is null) return false;
+
             var users = Users.Where(user => user.Id != id);
             Users = users;
-            return Users;
-        }
-        return null;
+            return true;
     }
 }

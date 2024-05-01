@@ -12,6 +12,7 @@ public class Address
     public string City { get; set; }
     public string Street { get; set; }
     public string Zip_code { get; set; }
+
     public Address(string id, string user_id, string country, string city, string street, string zip_code)
     {
         Id = id;
@@ -22,18 +23,4 @@ public class Address
         Zip_code = zip_code;
     }
 
-    internal static void Append(Address address)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void Select(Func<object, object> value)
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void Where(Func<object, bool> value)
-    {
-        throw new NotImplementedException();
-    }
 }
