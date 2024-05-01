@@ -2,26 +2,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-public class ProductRepository
+public class ProductRepository : IProductRepository
 {
-    public IEnumerable<Product> Products;
+    private IEnumerable<Product> _products;
     public ProductRepository()
     {
-        Products = new DatabaseContext().Products;
+        _products = new DatabaseContext().Products;
     }
     public IEnumerable<Product> FindAll()
     {
-        return Products;
+        return _products;
     }
-    public Product? FindOne(string id,Product product)
+    public Product? FindOne(string id)
     {
-        Product? product1 = Products.FirstOrDefault(product => product.Id == id);
+        Product? product1 = _products.FirstOrDefault(product => product.Id == id);
         if (product1 is not null)
         {
             return product1;
@@ -34,23 +35,24 @@ public class ProductRepository
         Product.Append(product);
         return product;
     }
-    public Product UpdateOne(Product UpdatedProduct)
+    public Product UpdateOne(Product updatedProduct)
     {
-        var Products = Product.Select(product =>
+        var products = _products.Select(product =>
          {
-             if (product.Id != UpdatedProduct.Id)
+             if (product.Id != updatedProduct.Id)
              {
                  return product;
              }
-             return UpdatedProduct;
+             return updatedProduct;
          });
-        Products = Product.ToList();
+        _products = products;
 
-        return UpdatedProduct;
+        return updatedProduct;
     }
-    public IEnumerable<Product> DeleteAll(string id)
+    public void DeleteOne(string id)
     {
-        Products.Where(product => product.Id == id);
-        return Products;
+        _products.Where(product => product.Id == id);
     }
+
+
 }

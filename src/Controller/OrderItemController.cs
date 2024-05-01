@@ -12,18 +12,18 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
     [Route("api/[controller]")]
     public class OrderItemController : ControllerBase
     {
-        public IEnumerable<OrderItem> orderitem;
+        public IEnumerable<OrderItem> Orderitem;
 
         public OrderItemController()
         {
-            orderitem = new DatabaseContext().OrderItem;
+            Orderitem = new DatabaseContext().OrderItem;
         }
 
 
         [HttpGet]
         public IEnumerable<OrderItem> FindAll()
         {
-            return orderitem;
+            return Orderitem;
         }
         [HttpGet("{OrderItemId}")]
         public OrderItem FindOne(OrderItem orderitem)

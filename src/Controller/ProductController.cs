@@ -18,10 +18,10 @@ public class ProductController : BaseController
     {
         return _productService.FindAll();//Service 
     }
-    [HttpGet("{ProcdutId}")]
-    public Product? FindOne(string id)
+    [HttpGet("{name}")]
+    public Product? FindOne(string name)
     {
-        Product? foundProduct = Products.FirstOrDefault((product) => product.Id == id);
+        Product? foundProduct = _productService.FindOne(name);
         return foundProduct;
     }
     [HttpPost]
@@ -29,24 +29,24 @@ public class ProductController : BaseController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<Product> CreateOne([FromBody] Product product)
     {
-       if (product is not null)
+        if (product is not null)
         {
-           var createdProduct = _productService.CreateOne(product);
+            var createdProduct = _productService.CreateOne(product);
             return CreatedAtAction(nameof(CreateOne), createdProduct);
         }
         return BadRequest();
 
     }
-    [HttpPatch("{name}")]
-    public Product UpdateOne(string name)
+    [HttpPatch]
+    public Product UpdateOne([FromBody] Product updatedProduct)
     {
-        Product updatedProduct = _productService.UpdateOne(name);
-        return updatedProduct;
+        Product product = _productService.UpdateOne(updatedProduct);
+        return product;
     }
     [HttpDelete]
-    public IEnumerable<Product> DeleteAll(string id)
+    public ActionResult DeleteOne(string id)
     {
-        Products.Where(product => product.Id == id);
-        return Products;
+        _productService.DeleteOne(id);
+        return NoContent();
     }
 }
