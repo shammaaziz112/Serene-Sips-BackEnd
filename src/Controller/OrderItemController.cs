@@ -12,7 +12,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
     [Route("api/[controller]")]
     public class OrderItemController : ControllerBase
     {
-        IEnumerable<OrderItem> orderitem;
+        public IEnumerable<OrderItem> orderitem;
 
         public OrderItemController()
         {

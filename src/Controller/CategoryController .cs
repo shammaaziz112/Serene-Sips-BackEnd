@@ -10,7 +10,7 @@ namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
 [Route("api/[controller]")]
     public class CategoryController : ControllerBase
     {
-            IEnumerable<Category> category;
+            public IEnumerable<Category> category;
 
     public  CategoryController()
     {
