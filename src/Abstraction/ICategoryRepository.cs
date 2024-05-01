@@ -10,12 +10,11 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     {
 
 
-        
+
         public IEnumerable<Category> FindAll();
-        public Category ? FindOne(string id);
+        public Category? FindOne(string id);
         public Category CreateOne(OrderItem orderitem);
         public Category UpdateOne(OrderItem orderitem);
-        public IEnumerable<OrderItem>  DeleteOne(string id);
-
+        public bool DeleteOne(string id);
     }
 }

@@ -41,14 +41,15 @@ public class CategoryController : ControllerBase
     [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public ActionResult<IEnumerable<Category>> DeleteOne(string id)
+    public ActionResult DeleteOne(string id)
     {
-        IEnumerable<Category>? orders = _CategoryService.DeleteOne(id);
-        if (orders is null)
+        bool  isDeleted =_CategoryService.DeleteOne(id);
+        if(!isDeleted )
+    
         {
-            return CreatedAtAction(nameof(CreateOne), orders);
+            return NotFound();
         }
-        else return BadRequest();
+        return NoContent();
 
 
 

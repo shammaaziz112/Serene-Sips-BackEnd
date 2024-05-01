@@ -21,9 +21,9 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         {
             return _CategoryRepository.FindAll();
         }
-        public Category? FindOne(Category category)
+        public Category? FindOne(string  id)
         {
-            return _CategoryRepository.FindOne(category.Id);
+            return _CategoryRepository.FindOne(id);
         }
         public Category CreateOne(Category category)
         {
@@ -40,7 +40,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             return null;
 
         }
-        public IEnumerable<Category>? DeleteOne(string id)
+        public bool DeleteOne(string id)
         {
             return _CategoryRepository.DeleteOne(id);
         }

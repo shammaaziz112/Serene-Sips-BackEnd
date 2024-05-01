@@ -1,55 +1,72 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
+using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+using sda_onsite_2_csharp_backend_teamwork.src.Service;
 
-namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
+namespace sda_onsite_2_csharp_backend_teamwork.src.Controllerl;
+
+public class IOrderItemController : BaseController
+
 {
+    private IOrderItemService _orderItemService;
 
-    public class OrderItemController : ControllerBase
+    public IOrderItemController(IOrderItemService orderService)
     {
-        private IOrderItemService _orderItemService;
+        _orderItemService = orderService;
+    }
 
+    [HttpGet]
+    public ActionResult<IEnumerable<OrderItem>> FindAll()
+    {
+        return Ok(_orderItemService.FindAll());
+    }
 
-        public OrderItemController(IOrderItemService orderItemService)
-        {
-            _orderItemService = orderItemService;
-        }
+    [HttpGet("{OrderItemId}")]
+    public ActionResult<OrderItem> FindOne(string orderId)
+    {
+        return Ok(_orderItemService.FindOne(orderId));
+    }
 
-        [HttpGet]
-        public ActionResult<IEnumerable<OrderItem>> FindAll()
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<OrderItem> CreateOne([FromBody] OrderItem order)
+    {
+        if (order is not null)
         {
-            return Ok(_orderItemService.FindAll());
+            var createdUser = _orderItemService.CreateOne(order);
+            return CreatedAtAction(nameof(CreateOne), createdUser);
         }
+        return BadRequest();
+    }
 
-        [HttpGet("{orderItemId}")]
-        public OrderItem FindOne(string orderItemId)
-        {
-            return _orderItemService.FindOne(orderItemId);
-        }
-        [HttpPost]
-        public OrderItem CreateOne(OrderItem orderitem)
-        {
-            return orderitem;
-        }
-        [HttpPatch]
-        public OrderItem UpdateOne(OrderItem orderitem)
-        {
-            return orderitem;
-        }
-        [HttpDelete("{id}")]
-        public ActionResult<IEnumerable<OrderItem>> DeleteOne(string id)
-        {
-            IEnumerable<OrderItem>? orders = _orderItemService.DeleteOne(id);
-            if (orders is null)
-            {
-                return CreatedAtAction(nameof(CreateOne), orders);
-            }
-            else return BadRequest();
+    [HttpPatch("{OrderItemId}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<OrderItem> UpdateOne(string id, [FromBody] Order order)
+    {
 
+        OrderItem? updatedOrder = _orderItemService.UpdateOne(id, order);
+        if (updatedOrder is not null)
+        {
+            return CreatedAtAction(nameof(UpdateOne), updatedOrder);
         }
-    }}
+        else return BadRequest();
+    }
+
+    [HttpDelete("{OrderItemId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeleteOne(string id)
+    {
+        bool isDeleted = _orderItemService.DeleteOne(id);
+        if (!isDeleted)
+        {
+            return NotFound();
+        }
+        return NoContent();
+
+    }
+}

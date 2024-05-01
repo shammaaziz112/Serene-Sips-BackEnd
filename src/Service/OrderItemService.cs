@@ -40,12 +40,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         {
             return _OrderItemRepository.UpdateOne(orderitem);
         }
-        public void DeleteAll(string id)
+        public bool DeleteAll(string id)
         {
-            _OrderItemRepository.DeleteOne(id);
+        return    _OrderItemRepository.DeleteOne(id);
         }
-
-
-
-    }
-}
+}}

@@ -9,12 +9,12 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
 {
     public interface IOrderItemService
     {
-        public ActionResult<IEnumerable<OrderItem>> FindAll();
+        public IEnumerable<OrderItem> FindAll();
         public OrderItem FindOne(string orderItemId);
         public OrderItem CreateOne(OrderItem orderitem);
         public OrderItem UpdateOne(OrderItem orderitem);
-        public OrderItem DeleteOne(string id);
-
-
+        public bool DeleteAll(string id);
+        OrderItem? UpdateOne(string id, Order order);
+        bool DeleteOne(string id);
     }
 }
