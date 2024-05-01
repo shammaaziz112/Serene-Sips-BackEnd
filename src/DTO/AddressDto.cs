@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace sda-onsite-2-csharp-backend_teamwork.src.DTO
+namespace sda_onsite_2_csharp_backend_teamwork.src.DTO;
+
+public class AddressReadDto
 {
-    public class AddressDto
-    {
-        
-    }
+    public string Country { get; set; }
+    public string City { get; set; }
+    public string Street { get; set; }
 }

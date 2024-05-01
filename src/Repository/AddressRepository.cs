@@ -5,7 +5,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 public class AddressRepository : IAddressRepository
 {
-    public IEnumerable<Address> Addresses { get; set; }
+    private IEnumerable<Address> Addresses { get; set; }
     public AddressRepository()
     {
         Addresses = new DatabaseContext().Addresses;

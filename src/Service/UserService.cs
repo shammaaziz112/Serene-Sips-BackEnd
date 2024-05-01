@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.Utility;
@@ -15,28 +17,37 @@ public class UserService : IUserService
 {
     private IConfiguration _config;
     private IUserRepository _userRepository;
-    public UserService(IUserRepository userRepository, IConfiguration config)
+    private IMapper _mapper;
+    public UserService(IUserRepository userRepository, IConfiguration config, IMapper mapper)
     {
         _userRepository = userRepository;
         _config = config;
+        _mapper = mapper;
     }
-    public IEnumerable<User> FindAll()
+    public IEnumerable<UserReadDto> FindAll()
     {
-        return _userRepository.FindAll();
+        var user = _userRepository.FindAll();
+        var userRead = user.Select(_mapper.Map<UserReadDto>);
+        return userRead;
     }
 
-    public User? FindOne(string id)
+    public UserReadDto? FindOne(string id)
     {
-        return _userRepository.FindOne(id);
+        User? user = _userRepository.FindOne(id);
+        UserReadDto? userRead = _mapper.Map<UserReadDto>(user);
+        return userRead;
     }
-    public User? UpdateOne(string email, User user)
+    public UserReadDto? UpdateOne(string email, User user)
     {
+
         User? updatedUser = _userRepository.FindOne(email);
         if (updatedUser is not null)
         {
             updatedUser.FullName = user.FullName;
             updatedUser.Phone = user.Phone;
-            return _userRepository.UpdateOne(updatedUser);
+            var userAllInfo = _userRepository.UpdateOne(updatedUser);
+            var userRead = _mapper.Map<UserReadDto>(userAllInfo);
+            return userRead;
         }
         else return null;
     }
@@ -46,7 +57,7 @@ public class UserService : IUserService
         return _userRepository.DeleteOne(id);
     }
 
-    public User? CreateOne(User user)
+    public UserReadDto? CreateOne(User user)
     {
         User? foundUser =
          _userRepository.FindOne(user.Email);
@@ -59,6 +70,10 @@ public class UserService : IUserService
 
         PasswordUtility.HashPassword(user.Password, out string hashedPassword, pepper);
         user.Password = hashedPassword;
-        return _userRepository.CreateOne(user);
+
+
+        var createdUser = _userRepository.CreateOne(user);
+        var userRead = _mapper.Map<UserReadDto>(createdUser);
+        return userRead;
     }
 }
