@@ -14,15 +14,11 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
 public class UserService : IUserService
 {
     private IConfiguration _config;
-    public IEnumerable<User> users;
     private IUserRepository _userRepository;
-    public UserService( IUserRepository userRepository,IConfiguration config){
-       _userRepository =  userRepository;
-       _config = config;
-    }
-    public UserService()
+    public UserService(IUserRepository userRepository, IConfiguration config)
     {
-        users = new DatabaseContext().Users;
+        _userRepository = userRepository;
+        _config = config;
     }
     public IEnumerable<User> FindAll()
     {
@@ -31,27 +27,25 @@ public class UserService : IUserService
 
     public User? FindOne(string id)
     {
-        User? user = users.FirstOrDefault((user) => user.Id == id);
-        return user;
+        return _userRepository.FindOne(id);
     }
-
-    // public User CreateOne(User user)
-    // {
-    //     users.Append(user);
-    //     return user;
-    // }
-
     public User? UpdateOne(string email, User user)
     {
-        users.Select(user => user.Id);
-        return user;
+        User? updatedUser = _userRepository.FindOne(email);
+        if (updatedUser is not null)
+        {
+            updatedUser.FullName = user.FullName;
+            updatedUser.Phone = user.Phone;
+            return _userRepository.UpdateOne(updatedUser);
+        }
+        else return null;
     }
 
-    public User? DeleteOne(string id, User user)
+    public IEnumerable<User>? DeleteOne(string id)
     {
-        users.Where(user => user.Id == id);
-        return user;
+        return _userRepository.DeleteOne(id);
     }
+
     public User? CreateOne(User user)
     {
         User? foundUser =

@@ -12,5 +12,5 @@ public interface IUserService
     public User? FindOne(string id);
     public User? CreateOne(User user);
     public User? UpdateOne(string email, User user);
-    public User? DeleteOne(string id, User user);
+    public IEnumerable<User>? DeleteOne(string id);
 }
