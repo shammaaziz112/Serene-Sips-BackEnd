@@ -41,8 +41,8 @@ public class OrderController : BaseController
         return BadRequest();
     }
 
-    [HttpPatch("{id}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
+    [HttpPatch("{OrderId}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<Order> UpdateOne(string id, [FromBody] Order order)
     {
@@ -55,17 +55,17 @@ public class OrderController : BaseController
         else return BadRequest();
     }
 
-    [HttpDelete("{id}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right 
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<IEnumerable<Order>> DeleteOne(string id)
+    [HttpDelete("{OrderId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public ActionResult DeleteOne(string id)
     {
-        IEnumerable<Order>? orders = _orderService.DeleteOne(id);
-        if (orders is null)
+        bool isDeleted = _orderService.DeleteOne(id);
+        if (!isDeleted)
         {
-            return CreatedAtAction(nameof(CreateOne), orders);
+            return NotFound();
         }
-        else return BadRequest();
+        return NoContent();
 
     }
 }

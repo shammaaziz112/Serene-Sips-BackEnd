@@ -41,7 +41,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             }
             else return null;
         }
-        public IEnumerable<Order>? DeleteOne(string id)
+
+        public bool DeleteOne(string id)
         {
             return _orderRepository.DeleteOne(id);
         }

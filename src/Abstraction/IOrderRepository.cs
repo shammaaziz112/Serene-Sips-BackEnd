@@ -12,6 +12,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
         public Order? FindOne(string orderId);
         public Order CreateOne(Order order);
         public Order UpdateOne(Order updatedOrder);
-        public IEnumerable<Order>? DeleteOne(string id);
+        public bool DeleteOne(string id);
     }
 }
