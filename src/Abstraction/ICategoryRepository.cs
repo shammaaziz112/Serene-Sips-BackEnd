@@ -12,7 +12,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
         public OrderItem FindOne(OrderItem orderitem);
         public OrderItem CreateOne(OrderItem orderitem);
         public OrderItem UpdateOne(OrderItem orderitem);
-        public OrderItem DeleteAll(string id);
-        
+        public OrderItem DeleteOne(string id);
+
     }
 }
