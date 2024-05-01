@@ -11,5 +11,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <Content Include="src\Controller\AddressController.cs" />
     <Content Include="src\Entity\User.cs" />
+    <Content Include="src\Service\UserService.cs" />
+    <Content Include="src\Abstraction\IUserService.cs" />
+    <Content Include="src\Abstraction\IUserRepository.cs" />
+    <Content Include="src\Repository\UserRepository.cs" />
+    <Content Include="src\Controller\UserController.cs" />
   </ItemGroup>
 </Project>
