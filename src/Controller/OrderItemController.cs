@@ -3,32 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
 {
-    [ApiController]
-    [Route("api/[controller]")]
+
     public class OrderItemController : ControllerBase
     {
-        public IEnumerable<OrderItem> Orderitem;
+        private IOrderItemService _orderItemService;
 
-        public OrderItemController()
+
+        public OrderItemController(IOrderItemService orderItemService)
         {
-            Orderitem = new DatabaseContext().OrderItem;
+            _orderItemService = orderItemService;
         }
-
 
         [HttpGet]
-        public IEnumerable<OrderItem> FindAll()
+        public ActionResult<IEnumerable<OrderItem>> FindAll()
         {
-            return Orderitem;
+            return Ok(_orderItemService.FindAll());
         }
-        [HttpGet("{OrderItemId}")]
-        public OrderItem FindOne(OrderItem orderitem)
+        
+        [HttpGet("{orderItemId}")]
+        public OrderItem FindOne(string orderItemId)
         {
-            return orderitem;
+            return _orderItemService.FindOne(orderItemId);
         }
         [HttpPost]
         public OrderItem CreateOne(OrderItem orderitem)
@@ -40,14 +41,11 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
         {
             return orderitem;
         }
-        [HttpDelete]
-        public IEnumerable<OrderItem> DeleteOne(string id)
+        [HttpDelete("{id}")]
+        public void DeleteOne(string id)
         {
-            orderitem.Where(orderitem => orderitem.Id == id);
-            return orderitem;
+        _orderItemService.DeleteOne(id); 
         }
-
-
 
     }
 }

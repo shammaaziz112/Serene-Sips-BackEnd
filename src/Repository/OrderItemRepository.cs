@@ -10,30 +10,29 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
 {
     public class OrderItemRepository
     {
-        public IEnumerable<OrderItem> orderitem { get; }
-        private IEnumerable<OrderItem> _orderitem;
+        public IEnumerable<OrderItem> OrderItem { get; set;}
 
         public OrderItemRepository()
         {
-            orderitem = new DatabaseContext().OrderItem;
+            OrderItem = new DatabaseContext().OrderItems;
 
         }
         public IEnumerable<OrderItem> FindAll()
         {
-            return orderitem;
+            return OrderItem;
         }
-        public OrderItem FindOne(string id)
+        public OrderItem? FindOne(string id)
         {
-            return _orderitem.FirstOrDefault((item) => item.Id == id);
+            return OrderItem.FirstOrDefault((item) => item.Id == id);
         }
         public OrderItem CreateOne(OrderItem orderitem)
         {
-            _orderitem.Append(orderitem);
+            OrderItem.Append(orderitem);
             return orderitem;
         }
         public OrderItem UpdateOne(OrderItem UpdateOrderitem)
         {
-            var orderitem = _orderitem.Select(orderitem =>
+            var orderitem = OrderItem.Select(orderitem =>
      {
          if (orderitem.Id == orderitem.Id)
          {
@@ -41,14 +40,13 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
          }
          return orderitem;
      });
-            _orderitem = orderitem.ToList();
+            OrderItem = orderitem.ToList();
 
             return UpdateOrderitem;
         }
-        public IEnumerable<OrderItem> DeleteOne(string id)
+        public void DeleteOne(string id)
         {
-            orderitem.Where(orderitem => orderitem.Id == id);
-            return orderitem;
+            OrderItem.Where(orderitem => orderitem.Id == id);
         }
 
 

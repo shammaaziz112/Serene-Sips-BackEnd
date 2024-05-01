@@ -10,15 +10,14 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class CategoryRepository
 {
-    public IEnumerable<Category> category { get; }
-    private IEnumerable<Category> _category;
+    private IEnumerable<Category> _category { get; set; }
     public CategoryRepository()
     {
         _category = new DatabaseContext().Category;
     }
     public IEnumerable<Category> FindAll()
     {
-        return category;
+        return _category;
     }
     public Category? FindOne(string name)
     {
@@ -44,10 +43,16 @@ public class CategoryRepository
 
         return UpdateCategory;
     }
-    public IEnumerable<Category> DeleteOne(string id)
+    public IEnumerable<Category>? DeleteOne(string id)
     {
-        _category.Where(category => category.Id == id);
-        return _category;
+        Category? category = FindOne(id);
+        if (category is not null)
+        {
+            var categories =_category.Where(category => category.Id != id);
+            _category = categories;
+            return _category;
+        }
+        return null;
     }
 }
 

@@ -2,43 +2,47 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
-        public IEnumerable<Category> category;
         private CategoryRepository _CategoryRepository;
 
         public CategoryService(CategoryRepository CategoryRepository)
         {
             _CategoryRepository = CategoryRepository;
-            category = new DatabaseContext().Category;
         }
-
-
-        public IEnumerable<Category> FindAll(Category category)
+        public IEnumerable<Category> FindAll()
         {
             return _CategoryRepository.FindAll();
         }
-        public Category FindOne(Category category)
+        public Category? FindOne(Category category)
         {
-            return  _CategoryRepository.FindOne(category);
+            return _CategoryRepository.FindOne(category.Id);
         }
         public Category CreateOne(Category category)
         {
             return _CategoryRepository.CreateOne(category);
         }
-        public Category UpdateOne(Category category)
+        public Category? UpdateOne(string id, Category newCategory)
         {
-            return _CategoryRepository.UpdateOne(category);
+            Category? updatedOrder = _CategoryRepository.FindOne(id);
+            if (updatedOrder is not null)
+            {
+                updatedOrder.Id = newCategory.Id;
+                return _CategoryRepository.UpdateOne(updatedOrder);
+            }
+            return null;
+
         }
-        public IEnumerable<Category> DeleteAll(string id)
+        public IEnumerable<Category>? DeleteOne(string id)
         {
-            return _CategoryRepository.DeleteAll(id);
+            return _CategoryRepository.DeleteOne(id);
         }
 
     }
