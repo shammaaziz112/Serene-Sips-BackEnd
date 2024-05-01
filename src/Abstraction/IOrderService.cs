@@ -9,7 +9,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     public interface IOrderService
     {
         public IEnumerable<Order> FindAll();
-        public Order? FindOne(Order order);
+        public Order? FindOne(string orderId);
         public Order CreateOne(Order order);
         public Order? UpdateOne(string email, Order order);
         public IEnumerable<Order>? DeleteOne(string id);

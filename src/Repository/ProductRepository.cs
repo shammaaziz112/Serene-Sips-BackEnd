@@ -32,7 +32,7 @@ public class ProductRepository : IProductRepository
 
     public Product CreateOne(Product product)
     {
-        Product.Append(product);
+        _products.Append(product);
         return product;
     }
     public Product UpdateOne(Product updatedProduct)

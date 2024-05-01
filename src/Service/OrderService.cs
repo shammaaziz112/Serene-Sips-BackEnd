@@ -22,9 +22,9 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         {
             return _orderRepository.FindAll();
         }
-        public Order? FindOne(Order order)
+        public Order? FindOne(string orderId)
         {
-            return _orderRepository.FindOne(order.Id);
+            return _orderRepository.FindOne(orderId);
         }
         public Order CreateOne(Order order)
         {
@@ -36,14 +36,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             Order? updatedOrder = _orderRepository.FindOne(id);
             if (updatedOrder is not null)
             {
-                updatedOrder.Id = newOrder.Id;
+                updatedOrder.Status = newOrder.Status;
                 return _orderRepository.UpdateOne(updatedOrder);
             }
-            return null;
-
-            // Orders.Select(order => order.Id);
-            // Order updatedOrder = _orderReopsitory.UpdateOne(order);
-            // return updatedOrder;
+            else return null;
         }
         public IEnumerable<Order>? DeleteOne(string id)
         {

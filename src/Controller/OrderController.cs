@@ -23,9 +23,9 @@ public class OrderController : BaseController
     }
 
     [HttpGet("{OrderId}")]
-    public ActionResult<Order?> FindOne(Order order)
+    public ActionResult<Order?> FindOne(string orderId)
     {
-        return Ok(_orderService.FindOne(order));
+        return Ok(_orderService.FindOne(orderId));
     }
 
     [HttpPost]
