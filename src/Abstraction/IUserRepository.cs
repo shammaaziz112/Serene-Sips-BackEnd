@@ -10,6 +10,8 @@ public interface IUserRepository
 {
     public IEnumerable<User> FindAll();
     public User CreateOne(User user);
-    public User? FindOneByEmail(string email);
+    public User? FindOne(string email);
     public User UpdateOne(User updatedUser);
+
+    public User? DeleteOne(string id);
 }
