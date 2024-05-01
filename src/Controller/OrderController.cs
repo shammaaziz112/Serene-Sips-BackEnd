@@ -17,15 +17,15 @@ public class OrderController : BaseController
     }
 
     [HttpGet]
-    public IEnumerable<Order> FindAll()
+    public ActionResult<IEnumerable<Order>> FindAll()
     {
-        return _orderService.FindAll();
+        return Ok(_orderService.FindAll());
     }
 
     [HttpGet("{OrderId}")]
-    public Order? FindOne(Order order)
+    public ActionResult<Order?> FindOne(Order order)
     {
-        return _orderService.FindOne(order);
+        return Ok(_orderService.FindOne(order));
     }
 
     [HttpPost]

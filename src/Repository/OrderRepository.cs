@@ -10,7 +10,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class OrderRepository : IOrderRepository
 {
-    public IEnumerable<Order> Orders;
+    public IEnumerable<Order> Orders {get; set;}
     public OrderRepository()
     {
 
