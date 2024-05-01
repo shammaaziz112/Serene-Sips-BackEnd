@@ -11,10 +11,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
 
 
         
-        public IEnumerable<OrderItem> FindAll();
-        public OrderItem ? FindOne(string id);
-        public OrderItem CreateOne(OrderItem orderitem);
-        public OrderItem UpdateOne(OrderItem orderitem);
+        public IEnumerable<Category> FindAll();
+        public Category ? FindOne(string id);
+        public Category CreateOne(OrderItem orderitem);
+        public Category UpdateOne(OrderItem orderitem);
         public IEnumerable<OrderItem>  DeleteOne(string id);
 
     }

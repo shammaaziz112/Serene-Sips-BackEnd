@@ -3,44 +3,57 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-[ApiController]
-[Route("api/[controller]")]
-    public class CategoryController : ControllerBase
-    {
-            public IEnumerable<Category> category;
 
-    public  CategoryController()
+public class CategoryController : ControllerBase
+{
+    private ICategoryService _CategoryService;
+    public CategoryController(ICategoryService categoryService)
     {
-        category = new DatabaseContext().Category;
+        _CategoryService = categoryService;
     }
     [HttpGet]
-    public IEnumerable<Category> FindAll()
+    public ActionResult<IEnumerable<Category>> FindAll()
     {
-        return category;
+        return Ok(_CategoryService.FindAll());
     }
-    [HttpGet("{ProcdutId}")]
-    public Category FindOne(Category category)
+    [HttpGet("{CategoryId}")]
+    public ActionResult<Category?> FindOne(string id)
     {
-        return category;
+        return Ok(_CategoryService.FindOne(id));
     }
     [HttpPost]
-    public Category CreateOne(Category category)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<Category> CreateOne([FromBody] Category category)
     {
-        return category;
+        if (category is not null)
+        {
+            var createdUser = _CategoryService.CreateOne(category);
+            return CreatedAtAction(nameof(CreateOne), createdUser);
+        }
+        return BadRequest();
     }
-    [HttpPatch]
-    public Category UpdateOne(Category category)
+    [HttpPatch("{id}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+
+    public ActionResult<IEnumerable<Category>> DeleteOne(string id)
     {
-        return category;
+        IEnumerable<Category>? orders = _CategoryService.DeleteOne(id);
+        if (orders is null)
+        {
+            return CreatedAtAction(nameof(CreateOne), orders);
+        }
+        else return BadRequest();
+
+
+
     }
-    [HttpDelete]
-    public IEnumerable<Category> DeleteAll(string id)
-    {
-        category.Where(category => category.Id == id);
-        return category;
-    }
-        
-    }
+
+
+
+}

@@ -25,7 +25,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
         {
             return Ok(_orderItemService.FindAll());
         }
-        
+
         [HttpGet("{orderItemId}")]
         public OrderItem FindOne(string orderItemId)
         {
@@ -42,10 +42,14 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller
             return orderitem;
         }
         [HttpDelete("{id}")]
-        public void DeleteOne(string id)
+        public ActionResult<IEnumerable<OrderItem>> DeleteOne(string id)
         {
-        _orderItemService.DeleteOne(id); 
-        }
+            IEnumerable<OrderItem>? orders = _orderItemService.DeleteOne(id);
+            if (orders is null)
+            {
+                return CreatedAtAction(nameof(CreateOne), orders);
+            }
+            else return BadRequest();
 
-    }
-}
+        }
+    }}
