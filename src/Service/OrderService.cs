@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 {
@@ -14,30 +9,42 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
     {
 
         private IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderReposiroty, IConfiguration config)
+        private IMapper _mapper;
+        public OrderService(IOrderRepository orderReposiroty, IMapper mapper)
         {
+            _mapper = mapper;
             _orderRepository = orderReposiroty;
         }
-        public IEnumerable<Order> FindAll()
+        public IEnumerable<OrderReadDto> FindAll()
         {
-            return _orderRepository.FindAll();
+            var orders = _orderRepository.FindAll();
+            var ordersRead = orders.Select(_mapper.Map<OrderReadDto>);
+            return ordersRead;
         }
-        public Order? FindOne(string orderId)
+        public OrderReadDto? FindOne(string orderId)
         {
-            return _orderRepository.FindOne(orderId);
+
+            Order? order = _orderRepository.FindOne(orderId);
+            OrderReadDto? orderRead = _mapper.Map<OrderReadDto>(order);
+            return orderRead;
         }
-        public Order CreateOne(Order order)
+        public OrderReadDto CreateOne(Order order)
         {
-            return _orderRepository.CreateOne(order);
+            var createdOrder = _orderRepository.CreateOne(order);
+            var orderRead = _mapper.Map<OrderReadDto>(createdOrder);
+            return orderRead;
         }
-        public Order? UpdateOne(string id, Order newOrder)
+        public OrderReadDto? UpdateOne(string id, Order newOrder)
         {
 
             Order? updatedOrder = _orderRepository.FindOne(id);
             if (updatedOrder is not null)
             {
                 updatedOrder.Status = newOrder.Status;
-                return _orderRepository.UpdateOne(updatedOrder);
+
+                var updatedOrderAllInfo = _orderRepository.UpdateOne(updatedOrder);
+                var updatedOrderRead = _mapper.Map<OrderReadDto>(updatedOrderAllInfo);
+                return updatedOrderRead;
             }
             else return null;
         }

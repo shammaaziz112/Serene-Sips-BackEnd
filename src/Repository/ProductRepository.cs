@@ -11,7 +11,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class ProductRepository : IProductRepository
 {
-    private IEnumerable<Product> _products;
+    private IEnumerable<Product> _products { get; set; }
     public ProductRepository()
     {
         _products = new DatabaseContext().Products;
@@ -22,10 +22,10 @@ public class ProductRepository : IProductRepository
     }
     public Product? FindOne(string id)
     {
-        Product? product1 = _products.FirstOrDefault(product => product.Id == id);
-        if (product1 is not null)
+        Product? product = _products.FirstOrDefault(product => product.Id == id);
+        if (product is not null)
         {
-            return product1;
+            return product;
         }
         else return null;
     }
@@ -49,9 +49,14 @@ public class ProductRepository : IProductRepository
 
         return updatedProduct;
     }
-    public void DeleteOne(string id)
+    public bool DeleteOne(string id)
     {
-        _products.Where(product => product.Id == id);
+        Product? product = FindOne(id);
+        if (product is null) return false;
+
+        var products = _products.Where(product => product.Id != id);
+        _products = products;
+        return true;
     }
 
 

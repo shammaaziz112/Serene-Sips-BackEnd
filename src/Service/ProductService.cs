@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
@@ -33,21 +28,34 @@ public class ProductService : IProductService
         ProductReadDto? productRead = _mapper.Map<ProductReadDto>(product);
         return productRead;
     }
-    public ProductReadDto CreateOne(Product Product)
+    public ProductReadDto CreateOne(Product product)
     {
-        var product = _productRepository.CreateOne(Product);
-        var productRead = _mapper.Map<ProductReadDto>(product);
+        var createdProduct = _productRepository.CreateOne(product);
+        var productRead = _mapper.Map<ProductReadDto>(createdProduct);
         return productRead;
     }
-    public ProductReadDto UpdateOne(Product product)
+    public ProductReadDto? UpdateOne(string id, Product newproduct)
     {
-        var productAllInfo = _productRepository.UpdateOne(product);
-        var productRead = _mapper.Map<ProductReadDto>(productAllInfo);
-        return productRead;
+        Product? updatedProduct = _productRepository.FindOne(id);
+        if (updatedProduct is not null)
+        {
+            updatedProduct.Name = newproduct.Name;
+            updatedProduct.Price = newproduct.Price;
+            updatedProduct.Quantity = newproduct.Quantity;
+            updatedProduct.Image = newproduct.Image;
+            updatedProduct.Description = newproduct.Description;
+
+            var productAllInfo = _productRepository.UpdateOne(updatedProduct);
+            var productRead = _mapper.Map<ProductReadDto>(productAllInfo);
+            return productRead;
+        }
+        else return null;
+
+
     }
-    public void DeleteOne(string id)
+    public bool DeleteOne(string id)
     {
-        _productRepository.DeleteOne(id);
+        return _productRepository.DeleteOne(id);
     }
 
 }

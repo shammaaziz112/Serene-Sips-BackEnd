@@ -12,7 +12,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
         public Product? FindOne(string id);
         public Product CreateOne(Product product);
         public Product UpdateOne(Product product);
-        public void DeleteOne(string id);
+        public bool DeleteOne(string id);
 
     }
 }

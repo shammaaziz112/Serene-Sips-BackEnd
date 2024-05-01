@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Controller;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Service;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controllerl;
 
@@ -17,13 +16,13 @@ public class OrderController : BaseController
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Order>> FindAll()
+    public ActionResult<IEnumerable<OrderReadDto>> FindAll()
     {
         return Ok(_orderService.FindAll());
     }
 
     [HttpGet("{OrderId}")]
-    public ActionResult<Order?> FindOne(string orderId)
+    public ActionResult<OrderReadDto?> FindOne(string orderId)
     {
         return Ok(_orderService.FindOne(orderId));
     }
@@ -31,7 +30,7 @@ public class OrderController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Order> CreateOne([FromBody] Order order)
+    public ActionResult<OrderReadDto> CreateOne([FromBody] Order order)
     {
         if (order is not null)
         {
@@ -44,10 +43,10 @@ public class OrderController : BaseController
     [HttpPatch("{OrderId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Order> UpdateOne(string id, [FromBody] Order order)
+    public ActionResult<OrderReadDto> UpdateOne(string id, [FromBody] Order order)
     {
 
-        Order? updatedOrder = _orderService.UpdateOne(id, order);
+        OrderReadDto? updatedOrder = _orderService.UpdateOne(id, order);
         if (updatedOrder is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedOrder);

@@ -15,20 +15,20 @@ public class MappingProfile : Profile
         CreateMap<ProductReadDto, Product>();
         CreateMap<Product, ProductReadDto>();
 
-        CreateMap<OrderDto, Order>();
-        CreateMap<Order, OrderDto>();
+        CreateMap<OrderReadDto, Order>();
+        CreateMap<Order, OrderReadDto>();
 
-        CreateMap<UserDto, User>();
-        CreateMap<User, UserDto>();
+        CreateMap<UserReadDto, User>();
+        CreateMap<User, UserReadDto>();
 
-        // CreateMap<OrderItemDto, OrderItem>();
-        // CreateMap<OrderItem, OrderItemDto>();
+        CreateMap<OrderItemReadDto, OrderItem>();
+        CreateMap<OrderItem, OrderItemReadDto>();
 
-        // CreateMap<CategoryDto, Category>();
-        // CreateMap<Category, CategoryDto>();
+        CreateMap<CategoryReadDto, Category>();
+        CreateMap<Category, CategoryReadDto>();
 
-        CreateMap<AddressDto, Address>();
-        CreateMap<Address, AddressDto>();
+        CreateMap<AddressReadDto, Address>();
+        CreateMap<Address, AddressReadDto>();
 
     }
 }
