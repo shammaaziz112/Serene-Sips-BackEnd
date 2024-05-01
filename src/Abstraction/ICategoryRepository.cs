@@ -8,11 +8,13 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
 {
     public interface ICategoryRepository
     {
-        public List<OrderItem> FindAll(OrderItem orderitem);
-        public OrderItem FindOne(OrderItem orderitem);
-        public OrderItem CreateOne(OrderItem orderitem);
-        public OrderItem UpdateOne(OrderItem orderitem);
-        public OrderItem DeleteOne(string id);
 
+
+
+        public IEnumerable<Category> FindAll();
+        public Category? FindOne(string id);
+        public Category CreateOne(OrderItem orderitem);
+        public Category UpdateOne(OrderItem orderitem);
+        public bool DeleteOne(string id);
     }
 }
