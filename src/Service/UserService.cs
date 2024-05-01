@@ -41,7 +41,7 @@ public class UserService : IUserService
         else return null;
     }
 
-    public IEnumerable<User>? DeleteOne(string id)
+    public bool DeleteOne(string id)
     {
         return _userRepository.DeleteOne(id);
     }
