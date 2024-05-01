@@ -23,4 +23,19 @@ public class Product
         Quantity = quantity;
         Description = description;
     }
+
+    internal static void Append(Product product)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static object ToList()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static object Select(Func<object, object> value)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -19,23 +19,38 @@ public class ProductRepository
     {
         return Products;
     }
-    public Product FindOne(Product product)
+    public Product? FindOne(string id,Product product)
     {
-        return product;
+        Product? product1 = Products.FirstOrDefault(product => product.Id == id);
+        if (product1 is not null)
+        {
+            return product1;
+        }
+        else return null;
     }
 
     public Product CreateOne(Product product)
     {
+        Product.Append(product);
         return product;
     }
-    public Product UpdateOne(Product product)
+    public Product UpdateOne(Product UpdatedProduct)
     {
-        return product;
+        var Products = Product.Select(product =>
+         {
+             if (product.Id != UpdatedProduct.Id)
+             {
+                 return product;
+             }
+             return UpdatedProduct;
+         });
+        Products = Product.ToList();
+
+        return UpdatedProduct;
     }
     public IEnumerable<Product> DeleteAll(string id)
     {
         Products.Where(product => product.Id == id);
         return Products;
     }
-
 }

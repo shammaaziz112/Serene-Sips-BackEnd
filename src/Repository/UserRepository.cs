@@ -26,7 +26,7 @@ public class UserRepository : IUserRepository
         Users.Append(user);
         return user;
     }
-    public User? FindOneByEmail(string email)
+    public User? FindOne(string email)
     {
         User? user = Users.FirstOrDefault(user => user.Email == email);
         return user;
@@ -45,5 +45,16 @@ public class UserRepository : IUserRepository
         Users = users.ToList();
 
         return updatedUser;
+    }
+    public User? DeleteOne(string id)
+    {
+        User? user = FindOne(id);
+        if (user is not null)
+        {
+            var users = Users.Where(user => user.Id != id);
+            Users = users;
+            return user;
+        }
+        return null;
     }
 }

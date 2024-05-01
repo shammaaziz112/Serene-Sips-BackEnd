@@ -1,11 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+using sda_onsite_2_csharp_backend_teamwork.src.Service;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 public class UserController : BaseController
 {
     private List<User> _users;
+    private IUserService _userService;
+    public UserController(IUserService userService)
+    {
+        _userService = userService;
+    }
     public UserController()
     {
         _users = new DatabaseContext().Users;
@@ -34,7 +41,7 @@ public class UserController : BaseController
         return user;
     }
     [HttpDelete]
-    public User? DeleteOne(string id,User user)
+    public User? DeleteOne(string id, User user)
     {
         _users.Where(user => user.Id == id);
         return user;

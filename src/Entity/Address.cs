@@ -21,4 +21,19 @@ public class Address
         Street = street;
         Zip_code = zip_code;
     }
+
+    internal static void Append(Address address)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void Select(Func<object, object> value)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void Where(Func<object, bool> value)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -39,4 +39,9 @@ public class ProductService
     {
         return _productRepository.DeleteAll(id);
     }
+
+    internal IEnumerable<Product> FindAll()
+    {
+        throw new NotImplementedException();
+    }
 }
