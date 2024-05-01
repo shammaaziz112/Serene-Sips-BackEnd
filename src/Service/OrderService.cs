@@ -12,36 +12,42 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 {
     public class OrderService : IOrderService
     {
-        public IEnumerable<Order> Orders;
-        private IOrderRepository _orderReopsitory;
-        public OrderService(IOrderRepository orderReposiroty)
+
+        private IOrderRepository _orderRepository;
+        public OrderService(IOrderRepository orderReposiroty, IConfiguration config)
         {
-            Orders = new DatabaseContext().Orders;
-            _orderReopsitory = orderReposiroty;
+            _orderRepository = orderReposiroty;
         }
         public IEnumerable<Order> FindAll()
         {
-            return Orders;
+            return _orderRepository.FindAll();
         }
         public Order? FindOne(Order order)
         {
-            return _orderReopsitory.FindOne(order.Id);
+            return _orderRepository.FindOne(order.Id);
         }
         public Order CreateOne(Order order)
         {
-            return order;
+            return _orderRepository.CreateOne(order);
         }
-        public Order UpdateOne(string id, [FromBody] Order order)
+        public Order? UpdateOne(string id, Order newOrder)
         {
 
-            Orders.Select(order => order.Id);
-            Order updatedOrder = _orderReopsitory.UpdateOne(order);
-            return updatedOrder;
+            Order? updatedOrder = _orderRepository.FindOne(id);
+            if (updatedOrder is not null)
+            {
+                updatedOrder.Id = newOrder.Id;
+                return _orderRepository.UpdateOne(updatedOrder);
+            }
+            return null;
+
+            // Orders.Select(order => order.Id);
+            // Order updatedOrder = _orderReopsitory.UpdateOne(order);
+            // return updatedOrder;
         }
-        public IEnumerable<Order> DeleteOne(string id)
+        public IEnumerable<Order>? DeleteOne(string id)
         {
-            IEnumerable<Order> order = Orders;
-            return order;
+            return _orderRepository.DeleteOne(id);
         }
 
     }

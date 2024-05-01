@@ -40,17 +40,32 @@ public class OrderController : BaseController
         }
         return BadRequest();
     }
+
     [HttpPatch("{id}")]
-    public Order UpdateOne(string id, [FromBody] Order order)
+    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<Order> UpdateOne(string id, [FromBody] Order order)
     {
-        Order updatedOrder = _orderService.UpdateOne(id, order);
-        return updatedOrder;
+
+        Order? updatedOrder = _orderService.UpdateOne(id, order);
+        if (updatedOrder is not null)
+        {
+            return CreatedAtAction(nameof(UpdateOne), updatedOrder);
+        }
+        else return BadRequest();
     }
 
     [HttpDelete("{id}")]
-    public IEnumerable<Order> DeleteOne(string id)
+    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right 
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<IEnumerable<Order>> DeleteOne(string id)
     {
-        return _orderService.DeleteOne(id);
+        IEnumerable<Order>? orders = _orderService.DeleteOne(id);
+        if (orders is null)
+        {
+            return CreatedAtAction(nameof(CreateOne), orders);
+        }
+        else return BadRequest();
 
     }
 }
