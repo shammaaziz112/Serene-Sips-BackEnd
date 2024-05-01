@@ -7,44 +7,61 @@ using sda_onsite_2_csharp_backend_teamwork.src.Service;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 public class UserController : BaseController
 {
-    private List<User> _users;
     private IUserService _userService;
     public UserController(IUserService userService)
     {
         _userService = userService;
     }
-    public UserController()
-    {
-        _users = new DatabaseContext().Users;
-    }
+
     [HttpGet]
-    public List<User> FindAll()
+    public IEnumerable<User> FindAll()
     {
-        return _users;
+        return _userService.FindAll();
     }
-    [HttpGet("{id}")]
-    public User? FindOne(string id)
+
+    [HttpGet("{UserId}")]
+    public ActionResult<User?> FindOne(string userId)
     {
-        User? user = _users.FirstOrDefault((user) => user.Id == id);
-        return user;
+        return Ok(_userService.FindOne(userId));
     }
+
     [HttpPost]
-    public List<User> CreateOne([FromBody] User user)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<IEnumerable<User>> CreateOne([FromBody] User user)
     {
-        _users.Add(user);
-        return _users;
+        if (user is not null)
+        {
+            var createdUser = _userService.CreateOne(user);
+            return CreatedAtAction(nameof(CreateOne), createdUser);
+        }
+        else return BadRequest();
     }
-    [HttpPatch]
-    public User? UpdateOne(string email, User user)
+
+    [HttpPatch("{UserId}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<User> UpdateOne(string email, User user)
     {
-        _users.Select(user => user.Id);
-        return user;
+        User? updatedUser = _userService.UpdateOne(email, user);
+        if (updatedUser is not null)
+        {
+            return CreatedAtAction(nameof(UpdateOne), updatedUser);
+        }
+        else return BadRequest();
     }
+
     [HttpDelete]
-    public User? DeleteOne(string id, User user)
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult DeleteOne(string id, User user)
     {
-        _users.Where(user => user.Id == id);
-        return user;
+        IEnumerable<User>? users = _userService.DeleteOne(id);
+        if (users is not null)
+        {
+            return NoContent();
+        }
+        else return BadRequest();
     }
 
 }

@@ -20,9 +20,9 @@ public class OrderRepository : IOrderRepository
     {
         return Orders;
     }
-    public Order? FindOne(string id)
+    public Order? FindOne(string orderId)
     {
-        Order? order = Orders.FirstOrDefault(order => order.Id == id);
+        Order? order = Orders.FirstOrDefault(order => order.Id == orderId);
         if (order is not null)
         {
             return order;
