@@ -6,9 +6,9 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 public class AddressRepository : IAddressRepository
 {
     private IEnumerable<Address> Addresses { get; set; }
-    public AddressRepository()
+    public AddressRepository()//public AddressRepository(DatabaseContext databaseContext)
     {
-        Addresses = new DatabaseContext().Addresses;
+        Addresses = new DatabaseContext().Addresses;// Addresses = databaseContext.Addresses
     }
 
     public IEnumerable<Address> FindAll()
