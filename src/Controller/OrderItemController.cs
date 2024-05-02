@@ -1,10 +1,13 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Service;
-
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controllerl;
 
 public class IOrderItemController : BaseController
@@ -18,13 +21,13 @@ public class IOrderItemController : BaseController
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<OrderItem>> FindAll()
+    public ActionResult<IEnumerable<OrderItemReadDto>> FindAll()
     {
         return Ok(_orderItemService.FindAll());
     }
 
     [HttpGet("{OrderItemId}")]
-    public ActionResult<OrderItem> FindOne(string orderId)
+    public ActionResult<OrderItemReadDto> FindOne(string orderId)
     {
         return Ok(_orderItemService.FindOne(orderId));
     }
@@ -32,7 +35,7 @@ public class IOrderItemController : BaseController
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderItem> CreateOne([FromBody] OrderItem order)
+    public ActionResult<OrderItemReadDto> CreateOne([FromBody] OrderItem order)
     {
         if (order is not null)
         {
@@ -45,10 +48,10 @@ public class IOrderItemController : BaseController
     [HttpPatch("{OrderItemId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderItem> UpdateOne(string id, [FromBody] Order order)
+    public ActionResult<OrderItemReadDto> UpdateOne(string id, [FromBody] OrderItem orderitem)
     {
 
-        OrderItem? updatedOrder = _orderItemService.UpdateOne(id, order);
+        OrderItemReadDto? updatedOrder = _orderItemService.UpdateOne(id, orderitem);
         if (updatedOrder is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedOrder);

@@ -1,43 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 {
     public class CategoryService : ICategoryService
     {
         private CategoryRepository _CategoryRepository;
+        private IMapper _mapper;
 
-        public CategoryService(CategoryRepository CategoryRepository)
+        public CategoryService(CategoryRepository CategoryRepository, IMapper mapper)
         {
             _CategoryRepository = CategoryRepository;
+            _mapper = mapper;
         }
-        public IEnumerable<Category> FindAll()
+        public IEnumerable<CategoryReadDto> FindAll()
         {
-            return _CategoryRepository.FindAll();
+            var categories = _CategoryRepository.FindAll();
+            var categoriesRead = categories.Select(_mapper.Map<CategoryReadDto>);
+            return categoriesRead;
         }
-        public Category? FindOne(string  id)
+        public CategoryReadDto? FindOne(string id)
         {
-            return _CategoryRepository.FindOne(id);
+            Category? category = _CategoryRepository.FindOne(id);
+            CategoryReadDto? categoryRead = _mapper.Map<CategoryReadDto>(category);
+            return categoryRead;
         }
-        public Category CreateOne(Category category)
+        public CategoryReadDto CreateOne(Category category)
         {
-            return _CategoryRepository.CreateOne(category);
+            var createdCatgory = _CategoryRepository.CreateOne(category);
+            var categoryRead = _mapper.Map<CategoryReadDto>(category);
+            return categoryRead;
         }
-        public Category? UpdateOne(string id, Category newCategory)
+        public CategoryReadDto? UpdateOne(string id, Category newCategory)
         {
-            Category? updatedOrder = _CategoryRepository.FindOne(id);
-            if (updatedOrder is not null)
+            Category? updatedCategory = _CategoryRepository.FindOne(id);
+            if (updatedCategory is not null)
             {
-                updatedOrder.Id = newCategory.Id;
-                return _CategoryRepository.UpdateOne(updatedOrder);
+                updatedCategory.Name = newCategory.Name;
+                var updatedCategoryname=_CategoryRepository.UpdateOne(updatedCategory);
+                var  updatedCategoryRead =_mapper.Map<CategoryReadDto>(updatedCategoryname);
+                return updatedCategoryRead;
             }
-            return null;
+             else return null;
 
         }
         public bool DeleteOne(string id)

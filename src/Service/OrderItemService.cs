@@ -1,48 +1,70 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Mvc;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
+using AutoMapper;
 
 
-namespace sda_onsite_2_csharp_backend_teamwork.src.Service
+
+
+
+namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
+
+public class OrderItemService : IOrderItemService
 {
-    public class OrderItemService
+    public IEnumerable<OrderItem> orderitem;
+
+    private OrderItemRepository _OrderItemRepository;
+    private IMapper _mapper;
+
+
+    public OrderItemService(OrderItemRepository orderItemRepository, IMapper mapper)
     {
-        public IEnumerable<OrderItem> orderitem;
-        private OrderItemRepository _OrderItemRepository;
+        _OrderItemRepository = orderItemRepository;
+        orderitem = new DatabaseContext().OrderItems;
+        _mapper = mapper;
+    }
+    public IEnumerable<OrderItemReadDto> FindAll()
+    {
+        var orderitem = _OrderItemRepository.FindAll();
+        var orderitemRead = orderitem.Select(_mapper.Map<OrderItemReadDto>);
+        return orderitemRead;
+    }
 
-        public OrderItemService(OrderItemRepository orderItemRepository)
+    public OrderItemReadDto? FindOne(string id)
+    {
+        OrderItem? orderitem = _OrderItemRepository.FindOne(id);
+        OrderItemReadDto? OrderItemRead = _mapper.Map<OrderItemReadDto>(orderitem);
+        return OrderItemRead;
+    }
+    public OrderItemReadDto CreateOne(OrderItem orderitem)
+    {
+        var createdOrderItem = _OrderItemRepository.CreateOne(orderitem);
+        var OrderItemRead = _mapper.Map<OrderItemReadDto>(orderitem);
+        return OrderItemRead;
+    }
+    public OrderItemReadDto? UpdateOne(string id, OrderItem orderitem)
+    {
+        OrderItem? updatedorderitem =  _OrderItemRepository.FindOne(id);
+        if (updatedorderitem is not null)
         {
-            _OrderItemRepository = orderItemRepository;
-            orderitem = new DatabaseContext().OrderItems;
+            updatedorderitem.Id = orderitem.Id;
+            var updatedOrderitemid =_OrderItemRepository.UpdateOne(updatedorderitem);
+            var updatedOrderitemRead = _mapper.Map<OrderItemReadDto>(updatedOrderitemid);
+            return updatedOrderitemRead;
+        }
+        else return null;
+
+    }
 
 
-        }
-        public IEnumerable<OrderItem> FindAll()
-        {
-            return _OrderItemRepository.FindAll();
-        }
-        [HttpGet("{orderId}")]
 
-        public OrderItem FindOne(string orderId)
-        {
-            return _OrderItemRepository.FindOne(orderId);
-        }
-        public OrderItem CreateOne(OrderItem orderitem)
-        {
-            return _OrderItemRepository.CreateOne(orderitem);
-        }
-        public OrderItem UpdateOne(OrderItem orderitem)
-        {
-            return _OrderItemRepository.UpdateOne(orderitem);
-        }
-        public bool DeleteAll(string id)
-        {
-            return _OrderItemRepository.DeleteOne(id);
-        }
+
+    public bool DeleteOne(string id)
+    {
+        return _OrderItemRepository.DeleteOne(id);
     }
 }
