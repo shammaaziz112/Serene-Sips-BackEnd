@@ -1,3 +1,8 @@
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
+using sda_onsite_2_csharp_backend_teamwork.src.Repository;
+using sda_onsite_2_csharp_backend_teamwork.src.Server;
+using sda_onsite_2_csharp_backend_teamwork.src.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -8,6 +13,21 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 // lower case
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+
+// dependency injection 
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IOrderItemService, OrderItemService>();
+builder.Services.AddScoped<IOrderItemRepository,OrderItemRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 
 
 var app = builder.Build();

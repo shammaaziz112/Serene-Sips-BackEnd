@@ -20,5 +20,7 @@
     <Content Include="src\Service\AddressService.cs" />
     <Content Include="src\Repository\AddressRepository.cs" />
     <Content Include="src\Abstraction\IAddressService.cs" />
+    <Content Include="src\Service\CategoryService.cs" />
+    <Content Include="src\Service\OrderItemService.cs" />
   </ItemGroup>
 </Project>

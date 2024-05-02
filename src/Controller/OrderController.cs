@@ -4,7 +4,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
-namespace sda_onsite_2_csharp_backend_teamwork.src.Controllerl;
+namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 
 public class OrderController : BaseController
 {
