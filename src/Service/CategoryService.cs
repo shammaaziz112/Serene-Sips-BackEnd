@@ -1,13 +1,9 @@
-
 using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
-
-namespace sda_onsite_2_csharp_backend_teamwork.src.Service
-{
+namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
     public class CategoryService : ICategoryService
     {
         private CategoryRepository _CategoryRepository;
@@ -36,17 +32,18 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             var categoryRead = _mapper.Map<CategoryReadDto>(category);
             return categoryRead;
         }
-        public CategoryReadDto? UpdateOne(string id, Category newCategory)
+        public CategoryReadDto? UpdateOne(string name, Category newCategory)
         {
-            Category? updatedCategory = _CategoryRepository.FindOne(id);
+            Category? updatedCategory = _CategoryRepository.FindOne(name);
             if (updatedCategory is not null)
             {
                 updatedCategory.Name = newCategory.Name;
-                var updatedCategoryname=_CategoryRepository.UpdateOne(updatedCategory);
-                var  updatedCategoryRead =_mapper.Map<CategoryReadDto>(updatedCategoryname);
+                updatedCategory.Description = newCategory.Description;
+                var categoryUpdated  = _CategoryRepository.UpdateOne(updatedCategory);
+                var updatedCategoryRead = _mapper.Map<CategoryReadDto>(categoryUpdated);
                 return updatedCategoryRead;
             }
-             else return null;
+            else return null;
 
         }
         public bool DeleteOne(string id)
@@ -55,4 +52,3 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         }
 
     }
-}

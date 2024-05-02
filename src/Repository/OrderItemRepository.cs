@@ -1,14 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Server;
+namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
-{
-    public class OrderItemRepository
+    public class OrderItemRepository :IOrderRepository
     {
         public IEnumerable<OrderItem> OrderItem { get; set; }
 
@@ -55,6 +50,23 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository
             return true;
         }
 
+    IEnumerable<Order> IOrderRepository.FindAll()
+    {
+        throw new NotImplementedException();
+    }
 
+    Order? IOrderRepository.FindOne(string orderId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Order CreateOne(Order order)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Order UpdateOne(Order updatedOrder)
+    {
+        throw new NotImplementedException();
     }
 }
