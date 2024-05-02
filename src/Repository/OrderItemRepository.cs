@@ -3,7 +3,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-    public class OrderItemRepository :IOrderRepository
+    public class OrderItemRepository :IOrderItemRepository
     {
         public IEnumerable<OrderItem> OrderItem { get; set; }
 
@@ -66,6 +66,11 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
     }
 
     public Order UpdateOne(Order updatedOrder)
+    {
+        throw new NotImplementedException();
+    }
+
+    List<OrderItem> IOrderItemRepository.FindAll()
     {
         throw new NotImplementedException();
     }
