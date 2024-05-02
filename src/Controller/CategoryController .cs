@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
 
@@ -16,19 +17,19 @@ public class CategoryController : ControllerBase
         _CategoryService = categoryService;
     }
     [HttpGet]
-    public ActionResult<IEnumerable<Category>> FindAll()
+    public ActionResult<IEnumerable<CategoryReadDto>> FindAll()
     {
         return Ok(_CategoryService.FindAll());
     }
     [HttpGet("{CategoryId}")]
-    public ActionResult<Category?> FindOne(string id)
+    public ActionResult<CategoryReadDto?> FindOne(string id)
     {
         return Ok(_CategoryService.FindOne(id));
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<Category> CreateOne([FromBody] Category category)
+    public ActionResult<CategoryReadDto> CreateOne([FromBody] Category category)
     {
         if (category is not null)
         {
@@ -40,12 +41,22 @@ public class CategoryController : ControllerBase
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<CategoryReadDto> UpdateOne(string id, [FromBody] Category category)
+    {
+
+        CategoryReadDto? updatedCategory =_CategoryService.UpdateOne(id, category);
+        if (updatedCategory is not null)
+        {
+            return CreatedAtAction(nameof(UpdateOne), updatedCategory);
+        }
+        else return BadRequest();
+    }
 
     public ActionResult DeleteOne(string id)
     {
-        bool  isDeleted =_CategoryService.DeleteOne(id);
-        if(!isDeleted )
-    
+        bool isDeleted = _CategoryService.DeleteOne(id);
+        if (!isDeleted)
+
         {
             return NotFound();
         }
