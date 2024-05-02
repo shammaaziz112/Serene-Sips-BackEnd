@@ -14,20 +14,26 @@ builder.Services.AddSwaggerGen();
 // lower case
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
-// dependency injection 
+// dependency injection service 
+
 builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IAddressRepository, AddressRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderItemService, OrderItemService>();
-builder.Services.AddScoped<IOrderItemRepository,OrderItemRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+// dependency injection repository 
+
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
+
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 
 var app = builder.Build();
@@ -39,7 +45,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 app.UseHttpsRedirection();
 

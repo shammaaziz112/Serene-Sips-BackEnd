@@ -9,7 +9,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-public class CategoryRepository :ICategoryRepository
+public class CategoryRepository : ICategoryRepository
 {
     private IEnumerable<Category> _category { get; set; }
     public CategoryRepository()
@@ -49,11 +49,11 @@ public class CategoryRepository :ICategoryRepository
         Category? category = FindOne(id);
         if (category is not null) return false;
         {
-            var categories =_category.Where(category => category.Id != id);
+            var categories = _category.Where(category => category.Id != id);
             _category = categories;
             return true;
         }
-    
+
     }
 
     public Category CreateOne(OrderItem orderitem)
@@ -66,6 +66,5 @@ public class CategoryRepository :ICategoryRepository
         throw new NotImplementedException();
     }
 }
-
 
 

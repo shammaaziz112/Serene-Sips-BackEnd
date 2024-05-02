@@ -33,7 +33,7 @@ public class AddressService : IAddressService
     public AddressReadDto CreateOne(Address address)
     {
         var Address = _addressRepository.CreateOne(address);
-        var addressRead = _mapper.Map<AddressReadDto>(address);
+        var addressRead = _mapper.Map<AddressReadDto>(Address);
         return addressRead;
     }
     public AddressReadDto? UpdateOne(string id, Address address)

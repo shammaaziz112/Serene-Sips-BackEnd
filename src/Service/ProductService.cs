@@ -8,9 +8,9 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 public class ProductService : IProductService
 {
-    private ProductRepository _productRepository;
+    private IProductRepository _productRepository;
     private IMapper _mapper;
-    public ProductService(ProductRepository productRepository, IMapper mapper)
+    public ProductService(IProductRepository productRepository, IMapper mapper)
     {
         _productRepository = productRepository;
         _mapper = mapper;
