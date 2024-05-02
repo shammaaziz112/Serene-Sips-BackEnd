@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-
 public class CategoryController : ControllerBase
 {
     private ICategoryService _CategoryService;
@@ -39,7 +33,7 @@ public class CategoryController : ControllerBase
         return BadRequest();
     }
     [HttpPatch("{id}")]
-    [ProducesResponseType(StatusCodes.Status201Created)]//? is it right
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<CategoryReadDto> UpdateOne(string id, [FromBody] Category category)
     {
@@ -51,7 +45,10 @@ public class CategoryController : ControllerBase
         }
         else return BadRequest();
     }
-
+    
+    [HttpDelete("{CategoryId}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult DeleteOne(string id)
     {
         bool isDeleted = _CategoryService.DeleteOne(id);
@@ -62,10 +59,6 @@ public class CategoryController : ControllerBase
         }
         return NoContent();
 
-
-
     }
-
-
 
 }
