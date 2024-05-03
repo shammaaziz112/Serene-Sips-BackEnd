@@ -1,77 +1,62 @@
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
-    public class OrderItemRepository :IOrderItemRepository
+public class OrderItemRepository : IOrderItemRepository
+{
+    private IEnumerable<OrderItem> _OrderItems { get; set; }
+
+    public OrderItemRepository()
     {
-        public IEnumerable<OrderItem> OrderItem { get; set; }
+        _OrderItems = new DatabaseContext().OrderItems;
 
-        public OrderItemRepository()
-        {
-            OrderItem = new DatabaseContext().OrderItems;
-
-        }
-        public IEnumerable<OrderItem> FindAll()
-        {
-            return OrderItem;
-        }
-        public OrderItem? FindOne(string id)
-        {
-            return OrderItem.FirstOrDefault((item) => item.Id == id);
-        }
-        public OrderItem CreateOne(OrderItem orderitem)
-        {
-            OrderItem.Append(orderitem);
-            return orderitem;
-        }
-        public OrderItem UpdateOne(OrderItem UpdateOrderitem)
-        {
-            var orderitem = OrderItem.Select(orderitem =>
-     {
-         if (orderitem.Id == orderitem.Id)
-         {
-             return UpdateOrderitem;
-         }
-         return orderitem;
-     });
-            OrderItem = orderitem.ToList();
-
-            return UpdateOrderitem;
-        }
-        public bool DeleteOne(string id)
-        {
-            OrderItem? order = FindOne(id);
-            if (order is null) return false;
-
-
-            var orders = OrderItem.Where(order => order.Id != id);
-            OrderItem = orders;
-            return true;
-        }
-
-    IEnumerable<Order> IOrderRepository.FindAll()
+    }
+    public IEnumerable<OrderItem> FindAll()
     {
-        throw new NotImplementedException();
+        return _OrderItems;
+    }
+    public OrderItem? FindOne(string id)
+    {
+        OrderItem? orderItem = _OrderItems.FirstOrDefault(orderItem => orderItem.Id == id);
+        if (orderItem is not null)
+        {
+            return orderItem;
+        }
+        else return null;
     }
 
-    Order? IOrderRepository.FindOne(string orderId)
+    public OrderItem CreateOne(OrderItem orderitem)
     {
-        throw new NotImplementedException();
+        _OrderItems.Append(orderitem);
+        return orderitem;
     }
 
-    public Order CreateOne(Order order)
+    public OrderItem UpdateOne(OrderItem updatedOrderItem)
     {
-        throw new NotImplementedException();
+        var orderItems = _OrderItems.Select(orderItem =>
+        {
+            if (orderItem.Id == updatedOrderItem.Id)
+
+            {
+                return updatedOrderItem;
+            }
+            return orderItem;
+        });
+        _OrderItems = orderItems;
+        return updatedOrderItem;
+
     }
 
-    public Order UpdateOne(Order updatedOrder)
+    public bool DeleteOne(string id)
     {
-        throw new NotImplementedException();
-    }
+        OrderItem? orderItem = FindOne(id);
+        if (orderItem is null) return false;
 
-    List<OrderItem> IOrderItemRepository.FindAll()
-    {
-        throw new NotImplementedException();
+        var orderItems =_OrderItems.Where(orderItem => orderItem.Id != id);
+        _OrderItems=orderItems;
+        return true;
+
     }
 }

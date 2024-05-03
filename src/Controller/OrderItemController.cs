@@ -11,9 +11,9 @@ public class IOrderItemController : BaseController
 {
     private IOrderItemService _orderItemService;
 
-    public IOrderItemController(IOrderItemService orderService)
+    public IOrderItemController(IOrderItemService orderItemService)
     {
-        _orderItemService = orderService;
+        _orderItemService = orderItemService;
     }
 
     [HttpGet]
@@ -23,19 +23,19 @@ public class IOrderItemController : BaseController
     }
 
     [HttpGet("{OrderItemId}")]
-    public ActionResult<OrderItemReadDto> FindOne(string orderId)
+    public ActionResult<OrderItemReadDto> FindOne(string id)
     {
-        return Ok(_orderItemService.FindOne(orderId));
+        return Ok(_orderItemService.FindOne(id));
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderItemReadDto> CreateOne([FromBody] OrderItem order)
+    public ActionResult<OrderItemReadDto> CreateOne([FromBody] OrderItem orderItem)
     {
-        if (order is not null)
+        if (orderItem is not null)
         {
-            var createdUser = _orderItemService.CreateOne(order);
+            var createdUser = _orderItemService.CreateOne(orderItem);
             return CreatedAtAction(nameof(CreateOne), createdUser);
         }
         return BadRequest();
@@ -47,10 +47,10 @@ public class IOrderItemController : BaseController
     public ActionResult<OrderItemReadDto> UpdateOne(string id, [FromBody] OrderItem orderitem)
     {
 
-        OrderItemReadDto? updatedOrder = _orderItemService.UpdateOne(id, orderitem);
-        if (updatedOrder is not null)
+        OrderItemReadDto? updatedOrderItem = _orderItemService.UpdateOne(id, orderitem);
+        if (updatedOrderItem is not null)
         {
-            return CreatedAtAction(nameof(UpdateOne), updatedOrder);
+            return CreatedAtAction(nameof(UpdateOne), updatedOrderItem);
         }
         else return BadRequest();
     }

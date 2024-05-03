@@ -32,7 +32,7 @@ public class CategoryController : ControllerBase
         }
         return BadRequest();
     }
-    [HttpPatch("{id}")]
+    [HttpPatch("{CategoryId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<CategoryReadDto> UpdateOne(string id, [FromBody] Category category)

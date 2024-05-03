@@ -13,7 +13,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
         public CategoryReadDto? FindOne(string id);
 
         public CategoryReadDto CreateOne(Category category);
-        public CategoryReadDto? UpdateOne(string id, Category newCategory);
+        public CategoryReadDto? UpdateOne(string name, Category newCategory);
         public bool DeleteOne(string id);
 
     }
