@@ -25,7 +25,7 @@ public class ProductController : BaseController
         return Ok(foundProduct);
     }
 
-    [HttpPost("signup")]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<ProductReadDto> CreateOne([FromBody] ProductCreateDto product)
