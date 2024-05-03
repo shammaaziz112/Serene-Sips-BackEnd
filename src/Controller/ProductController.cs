@@ -1,34 +1,34 @@
 using Microsoft.AspNetCore.Mvc;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
-using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Server;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
-[ApiController]
-[Route("api/[controller]")]
+
 public class ProductController : BaseController
 {
-    private ProductService _productService;
-    public ProductController(ProductService productService)
+    private IProductService _productService;
+    public ProductController(IProductService productService)
     {
         _productService = productService;
     }
+
     [HttpGet]
     public ActionResult<IEnumerable<ProductReadDto>> FindAll()
     {
         return Ok(_productService.FindAll());
     }
+
     [HttpGet("{name}")]
-    public ActionResult<ProductReadDto?> FindOne(string name)
+    public ActionResult<ProductReadDto?> FindOne([FromRoute] string name)
     {
         ProductReadDto? foundProduct = _productService.FindOne(name);
         return Ok(foundProduct);
     }
-    [HttpPost]
+
+    [HttpPost("signup")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<ProductReadDto> CreateOne([FromBody] Product product)
+    public ActionResult<ProductReadDto> CreateOne([FromBody] ProductCreateDto product)
     {
         if (product is not null)
         {
@@ -38,22 +38,22 @@ public class ProductController : BaseController
         return BadRequest();
     }
 
-    [HttpPatch("{ProductId}")]
+    [HttpPatch("{name}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<ProductReadDto> UpdateOne(string id, [FromBody] Product updatedProduct)
+    public ActionResult<ProductReadDto> UpdateOne(string name, [FromBody] ProductReadDto updatedProduct)
     {
-        ProductReadDto? product = _productService.UpdateOne(id, updatedProduct);
+        ProductReadDto? product = _productService.UpdateOne(name, updatedProduct);
         if (product is null) return BadRequest();
         return CreatedAtAction(nameof(UpdateOne), product);
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete("{name}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(string id)
+    public ActionResult DeleteOne([FromRoute] string name)
     {
-        bool isDeleted = _productService.DeleteOne(id);
+        bool isDeleted = _productService.DeleteOne(name);
         if (!isDeleted)
         {
             return NotFound();

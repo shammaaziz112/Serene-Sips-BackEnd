@@ -24,7 +24,7 @@ public class AddressController : BaseController
         return _addressService.FindAll();
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public AddressReadDto? CreateOne([FromBody] Address address)

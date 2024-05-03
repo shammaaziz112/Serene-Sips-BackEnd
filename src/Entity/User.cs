@@ -16,4 +16,5 @@ public class User
         Email = email;
         Role = role;
     }
+    public User() { }
 }
