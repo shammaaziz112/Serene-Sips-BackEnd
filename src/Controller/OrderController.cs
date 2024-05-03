@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 
@@ -9,7 +8,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Controller;
 public class OrderController : BaseController
 {
     private IOrderService _orderService;
-
     public OrderController(IOrderService orderService)
     {
         _orderService = orderService;
@@ -21,49 +19,42 @@ public class OrderController : BaseController
         return Ok(_orderService.FindAll());
     }
 
-    [HttpGet("{OrderId}")]
-    public ActionResult<OrderReadDto?> FindOne(string orderId)
+    [HttpGet("{id}")]
+    public ActionResult<OrderReadDto?> FindOne([FromRoute] string id)
     {
-        return Ok(_orderService.FindOne(orderId));
+        return Ok(_orderService.FindOne(id));
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderReadDto> CreateOne([FromBody] Order order)
+    public ActionResult<OrderReadDto> CreateOne([FromBody] OrderCreateDto order)
     {
         if (order is not null)
         {
-            var createdUser = _orderService.CreateOne(order);
-            return CreatedAtAction(nameof(CreateOne), createdUser);
+            var createdOrder = _orderService.CreateOne(order);
+            return CreatedAtAction(nameof(CreateOne), createdOrder);
         }
         return BadRequest();
     }
 
-    [HttpPatch("{OrderId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<OrderReadDto> UpdateOne(string id, [FromBody] Order order)
     {
-
         OrderReadDto? updatedOrder = _orderService.UpdateOne(id, order);
-        if (updatedOrder is not null)
-        {
-            return CreatedAtAction(nameof(UpdateOne), updatedOrder);
-        }
-        else return BadRequest();
+        if (updatedOrder is null) return BadRequest();
+        return CreatedAtAction(nameof(UpdateOne), updatedOrder);
     }
 
-    [HttpDelete("{OrderId}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(string id)
+    public ActionResult DeleteOne([FromRoute] string id)
     {
         bool isDeleted = _orderService.DeleteOne(id);
-        if (!isDeleted)
-        {
-            return NotFound();
-        }
+        if (!isDeleted) return NotFound();
         return NoContent();
 
     }

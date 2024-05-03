@@ -31,8 +31,8 @@ public class DatabaseContext
         ];
         Orders = [
             new Order("O1","1323243","pp","Shipped",new DateTime(),182),
-            new Order("O2","1004394","ff","delivered",new DateTime(),182),
-            new Order("O3","1228902","kk","Shipped",new DateTime(),182),
+            new Order("O2","1004394","ff","Delivered",new DateTime(),182),
+            new Order("O3","1228902","kk","Confirmed",new DateTime(),182),
         ];
         Addresses = [
             new Address("12356329887","1323243","Spain","Barcelona","san de moo","7789"),

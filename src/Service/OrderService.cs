@@ -7,7 +7,6 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
 {
     public class OrderService : IOrderService
     {
-
         private IOrderRepository _orderRepository;
         private IMapper _mapper;
         public OrderService(IOrderRepository orderReposiroty, IMapper mapper)
@@ -23,20 +22,19 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
         }
         public OrderReadDto? FindOne(string orderId)
         {
-
             Order? order = _orderRepository.FindOne(orderId);
             OrderReadDto? orderRead = _mapper.Map<OrderReadDto>(order);
             return orderRead;
         }
-        public OrderReadDto CreateOne(Order order)
+        public OrderReadDto CreateOne(OrderCreateDto order)
         {
-            var createdOrder = _orderRepository.CreateOne(order);
+            var newProduct = _mapper.Map<Order>(order);
+            var createdOrder = _orderRepository.CreateOne(newProduct);
             var orderRead = _mapper.Map<OrderReadDto>(createdOrder);
             return orderRead;
         }
         public OrderReadDto? UpdateOne(string id, Order newOrder)
         {
-
             Order? updatedOrder = _orderRepository.FindOne(id);
             if (updatedOrder is not null)
             {
