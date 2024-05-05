@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -6,10 +7,13 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class OrderRepository : IOrderRepository
 {
-    private IEnumerable<Order> _orders { get; set; }
-    public OrderRepository()
+    private DbSet<Order> _orders { get; set; }
+    private DatabaseContext _databaseContext;
+
+    public OrderRepository(DatabaseContext databaseContext)
     {
-        _orders = new DatabaseContext().Orders;
+        _databaseContext = databaseContext;
+        _orders = databaseContext.Orders;
     }
     public IEnumerable<Order> FindAll()
     {
@@ -17,7 +21,7 @@ public class OrderRepository : IOrderRepository
     }
     public Order? FindOne(string orderId)
     {
-        Order? order = _orders.FirstOrDefault(order => order.Id == orderId);
+        Order? order = _orders.Find(orderId);
         if (order is not null) return order;
         return null;
     }
@@ -28,16 +32,8 @@ public class OrderRepository : IOrderRepository
     }
     public Order UpdateOne(Order updatedOrder)
     {
-        var orders = _orders.Select(order =>
-         {
-             if (order.Id == updatedOrder.Id)
-             {
-                 return updatedOrder;
-             }
-             return order;
-         });
-        _orders = orders;
-
+        _orders.Update(updatedOrder);
+        _databaseContext.SaveChanges();
         return updatedOrder;
     }
 
@@ -45,9 +41,7 @@ public class OrderRepository : IOrderRepository
     {
         Order? order = FindOne(id);
         if (order is null) return false;
-
-        var orders = _orders.Where(order => order.Id != id);
-        _orders = orders;
+        _orders.Remove(order);
         return true;
     }
 }
