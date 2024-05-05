@@ -23,24 +23,27 @@ public class UserRepository : IUserRepository
     public User CreateOne(User user)
     {
         _users.Append(user);
+        _databaseContext.SaveChanges();
         return user;
     }
-    public User? FindOne(string email)
+    public User? FindOne(Guid id)
     {
-        User? user = _users.FirstOrDefault(user => user.Email == email);
+        User? user = _users.FirstOrDefault(user => user.Id == id);
         return user;
     }
 
     public User UpdateOne(User updatedUser)
     {
         _users.Update(updatedUser);
+        _databaseContext.SaveChanges();
         return updatedUser;
     }
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         User? user = FindOne(id);
         if (user is null) return false;
         _users.Remove(user);
+        _databaseContext.SaveChanges();
         return true;
     }
 }

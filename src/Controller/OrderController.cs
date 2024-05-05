@@ -20,7 +20,7 @@ public class OrderController : BaseController
     }
 
     [HttpGet("{id}")]
-    public ActionResult<OrderReadDto?> FindOne([FromRoute] string id)
+    public ActionResult<OrderReadDto?> FindOne([FromRoute] Guid id)
     {
         return Ok(_orderService.FindOne(id));
     }
@@ -41,7 +41,7 @@ public class OrderController : BaseController
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderReadDto> UpdateOne(string id, [FromBody] Order order)
+    public ActionResult<OrderReadDto> UpdateOne(Guid id, [FromBody] Order order)
     {
         OrderReadDto? updatedOrder = _orderService.UpdateOne(id, order);
         if (updatedOrder is null) return BadRequest();
@@ -51,7 +51,7 @@ public class OrderController : BaseController
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne([FromRoute] string id)
+    public ActionResult DeleteOne([FromRoute] Guid id)
     {
         bool isDeleted = _orderService.DeleteOne(id);
         if (!isDeleted) return NotFound();

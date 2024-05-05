@@ -18,10 +18,10 @@ public class ProductController : BaseController
         return Ok(_productService.FindAll());
     }
 
-    [HttpGet("{name}")]
-    public ActionResult<ProductReadDto?> FindOne([FromRoute] string name)
+    [HttpGet("{id}")]
+    public ActionResult<ProductReadDto?> FindOne([FromRoute] Guid id)
     {
-        ProductReadDto? foundProduct = _productService.FindOne(name);
+        ProductReadDto? foundProduct = _productService.FindOne(id);
         return Ok(foundProduct);
     }
 
@@ -38,22 +38,22 @@ public class ProductController : BaseController
         return BadRequest();
     }
 
-    [HttpPatch("{name}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<ProductReadDto> UpdateOne(string name, [FromBody] ProductReadDto updatedProduct)
+    public ActionResult<ProductReadDto> UpdateOne(Guid id, [FromBody] ProductReadDto updatedProduct)
     {
-        ProductReadDto? product = _productService.UpdateOne(name, updatedProduct);
+        ProductReadDto? product = _productService.UpdateOne(id, updatedProduct);
         if (product is null) return BadRequest();
         return CreatedAtAction(nameof(UpdateOne), product);
     }
 
-    [HttpDelete("{name}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne([FromRoute] string name)
+    public ActionResult DeleteOne([FromRoute] Guid id)
     {
-        bool isDeleted = _productService.DeleteOne(name);
+        bool isDeleted = _productService.DeleteOne(id);
         if (!isDeleted)
         {
             return NotFound();

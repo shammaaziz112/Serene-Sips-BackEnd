@@ -6,8 +6,8 @@ public interface IUserRepository
 {
     public IEnumerable<User> FindAll();
     public User CreateOne(User user);
-    public User? FindOne(string email);
+    public User? FindOne(Guid id);
     public User UpdateOne(User updatedUser);
 
-    public bool DeleteOne(string id);
+    public bool DeleteOne(Guid id);
 }

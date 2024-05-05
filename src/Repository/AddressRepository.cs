@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -5,49 +6,43 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 public class AddressRepository : IAddressRepository
 {
-    private IEnumerable<Address> Addresses { get; set; }
-    public AddressRepository()//public AddressRepository(DatabaseContext databaseContext)
+    private DbSet<Address> _addresses { get; set; }
+    private DatabaseContext _databaseContext;
+    public AddressRepository(DatabaseContext databaseContext)//public AddressRepository(DatabaseContext databaseContext)
     {
-        Addresses = new DatabaseContext().Addresses;// Addresses = databaseContext.Addresses
+        _databaseContext = databaseContext;
+        _addresses = databaseContext.Addresses;// Addresses = databaseContext.Addresses
     }
 
     public IEnumerable<Address> FindAll()
     {
-        return Addresses;
+        return _addresses;
     }
 
-    public Address? FindOne(string id)
+    public Address? FindOne(Guid id)
     {
-        Address? address = Addresses.FirstOrDefault(address => address.Id == id);
+        Address? address = _addresses.FirstOrDefault(address => address.Id == id);
         if (address is null) return null;
 
         return address;
     }
     public Address CreateOne(Address address)
     {
-        Addresses.Append(address);
+        _addresses.Append(address);
+        _databaseContext.SaveChanges();
         return address;
     }
     public Address? UpdateOne(Address updatedAddress)
     {
-        var Address = Addresses.Select(address =>
-         {
-             if (address.Country == updatedAddress.Country)
-             {
-                 return updatedAddress;
-             }
-             return address;
-         });
-        Addresses = Address.ToList();
+        _addresses.Update(updatedAddress);
+        _databaseContext.SaveChanges();
         return updatedAddress;
     }
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         Address? address = FindOne(id);
         if (address is null) return false;
-
-        var Address = Addresses.Where(address => address.Id != id);
-        Addresses = Address;
+        _addresses.Remove(address);
         return true;
 
     }

@@ -19,7 +19,7 @@ public class OrderRepository : IOrderRepository
     {
         return _orders;
     }
-    public Order? FindOne(string orderId)
+    public Order? FindOne(Guid orderId)
     {
         Order? order = _orders.Find(orderId);
         if (order is not null) return order;
@@ -28,6 +28,7 @@ public class OrderRepository : IOrderRepository
     public Order CreateOne(Order order)
     {
         _orders.Append(order);
+        _databaseContext.SaveChanges();
         return order;
     }
     public Order UpdateOne(Order updatedOrder)
@@ -37,11 +38,12 @@ public class OrderRepository : IOrderRepository
         return updatedOrder;
     }
 
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         Order? order = FindOne(id);
         if (order is null) return false;
         _orders.Remove(order);
+        _databaseContext.SaveChanges();
         return true;
     }
 }

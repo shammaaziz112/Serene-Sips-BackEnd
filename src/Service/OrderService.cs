@@ -20,7 +20,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             var ordersRead = orders.Select(_mapper.Map<OrderReadDto>);
             return ordersRead;
         }
-        public OrderReadDto? FindOne(string orderId)
+        public OrderReadDto? FindOne(Guid orderId)
         {
             Order? order = _orderRepository.FindOne(orderId);
             OrderReadDto? orderRead = _mapper.Map<OrderReadDto>(order);
@@ -33,7 +33,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             var orderRead = _mapper.Map<OrderReadDto>(createdOrder);
             return orderRead;
         }
-        public OrderReadDto? UpdateOne(string id, Order newOrder)
+        public OrderReadDto? UpdateOne(Guid id, Order newOrder)
         {
             Order? updatedOrder = _orderRepository.FindOne(id);
             if (updatedOrder is not null)
@@ -47,7 +47,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Service
             else return null;
         }
 
-        public bool DeleteOne(string id)
+        public bool DeleteOne(Guid id)
         {
             return _orderRepository.DeleteOne(id);
         }
