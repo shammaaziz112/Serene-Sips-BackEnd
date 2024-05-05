@@ -1,4 +1,5 @@
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
+using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
 using sda_onsite_2_csharp_backend_teamwork.src.Service;
@@ -6,6 +7,9 @@ using sda_onsite_2_csharp_backend_teamwork.src.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+
+builder.Services.AddDbContext<DatabaseContext>();
+
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
