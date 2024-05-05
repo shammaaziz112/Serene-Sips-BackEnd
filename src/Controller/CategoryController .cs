@@ -1,26 +1,27 @@
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
+using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-public class CategoryController : ControllerBase
+public class CategoryController : BaseController
 {
     private ICategoryService _CategoryService;
     public CategoryController(ICategoryService categoryService)
     {
         _CategoryService = categoryService;
     }
-    [HttpGet]
+    [HttpGet()]
     public ActionResult<IEnumerable<CategoryReadDto>> FindAll()
     {
         return Ok(_CategoryService.FindAll());
     }
-    [HttpGet("{CategoryId}")]
-    public ActionResult<CategoryReadDto?> FindOne(string id)
+    [HttpGet("{categoryId}")]
+    public ActionResult<CategoryReadDto?> FindOne(Guid categoryId)
     {
-        return Ok(_CategoryService.FindOne(id));
+        return Ok(_CategoryService.FindOne(categoryId));
     }
-    [HttpPost]
+    [HttpPost()]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<CategoryReadDto> CreateOne([FromBody] Category category)
@@ -32,26 +33,26 @@ public class CategoryController : ControllerBase
         }
         return BadRequest();
     }
-    [HttpPatch("{CategoryId}")]
+    [HttpPatch("{categoryId}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<CategoryReadDto> UpdateOne(string id, [FromBody] Category category)
+    public ActionResult<CategoryReadDto> UpdateOne(Guid categoryId, [FromBody] Category category)
     {
 
-        CategoryReadDto? updatedCategory =_CategoryService.UpdateOne(id, category);
+        CategoryReadDto? updatedCategory = _CategoryService.UpdateOne(categoryId, category);
         if (updatedCategory is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedCategory);
         }
         else return BadRequest();
     }
-    
-    [HttpDelete("{CategoryId}")]
+
+    [HttpDelete("{categoryId}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(string id)
+    public ActionResult DeleteOne(Guid categoryId)
     {
-        bool isDeleted = _CategoryService.DeleteOne(id);
+        bool isDeleted = _CategoryService.DeleteOne(categoryId);
         if (!isDeleted)
 
         {

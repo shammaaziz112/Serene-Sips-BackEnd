@@ -28,7 +28,7 @@ public class UserService : IUserService
     {
         var user = _userRepository.FindAll();
         var userRead = user.Select(_mapper.Map<UserReadDto>);
-        return userRead;
+        return userRead; 
     }
 
     public UserReadDto? FindOne(string id)

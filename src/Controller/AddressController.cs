@@ -11,7 +11,7 @@ public class AddressController : BaseController
         _addressService = addressService;
     }
 
-    [HttpGet("{AddressId}")]
+    [HttpGet("{id}")]
     public ActionResult<AddressReadDto?> FindOne(string id)
     {
         AddressReadDto? foundAddress = _addressService.FindOne(id);
@@ -24,14 +24,14 @@ public class AddressController : BaseController
         return _addressService.FindAll();
     }
 
-    [HttpPost]
+    [HttpPost("create")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public AddressReadDto? CreateOne([FromBody] Address address)
     {
         return _addressService.CreateOne(address);
     }
-    [HttpPatch("{city}")]
+    [HttpPatch("{id}")]
     public ActionResult<AddressReadDto> UpdateOne(string id, Address address)
     {
         AddressReadDto? updatedAddress = _addressService.UpdateOne(id, address);
@@ -42,7 +42,7 @@ public class AddressController : BaseController
         return BadRequest();
     }
 
-    [HttpDelete("{street}")]
+    [HttpDelete("{id}")]
     public ActionResult DeleteOne(string id, Address address)
     {
         bool isDeleted = _addressService.DeleteOne(id);

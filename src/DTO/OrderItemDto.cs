@@ -8,6 +8,6 @@ public class OrderItemReadDto
 {
     public string ProductId { get; set; }
     public int Quantity { get; set; }
-    public double Unit_Price { get; set; }
+    public double UnitPrice { get; set; }
 
 }

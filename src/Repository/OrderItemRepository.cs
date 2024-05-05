@@ -6,20 +6,20 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class OrderItemRepository : IOrderItemRepository
 {
-    private IEnumerable<OrderItem> _OrderItems { get; set; }
+    private IEnumerable<OrderItem> _orderItems { get; set; }
 
     public OrderItemRepository()
     {
-        _OrderItems = new DatabaseContext().OrderItems;
-
+        _orderItems = new DatabaseContext().OrderItems;
     }
+
     public IEnumerable<OrderItem> FindAll()
     {
-        return _OrderItems;
+        return _orderItems;
     }
-    public OrderItem? FindOne(string id)
+    public OrderItem? FindOne(Guid id)
     {
-        OrderItem? orderItem = _OrderItems.FirstOrDefault(orderItem => orderItem.Id == id);
+        OrderItem? orderItem = _orderItems.FirstOrDefault(orderItem => orderItem.Id == id);
         if (orderItem is not null)
         {
             return orderItem;
@@ -27,15 +27,15 @@ public class OrderItemRepository : IOrderItemRepository
         else return null;
     }
 
-    public OrderItem CreateOne(OrderItem orderitem)
+    public OrderItem CreateOne(OrderItem orderItem)
     {
-        _OrderItems.Append(orderitem);
-        return orderitem;
+        _orderItems.Append(orderItem);
+        return orderItem;
     }
 
     public OrderItem UpdateOne(OrderItem updatedOrderItem)
     {
-        var orderItems = _OrderItems.Select(orderItem =>
+        var orderItems = _orderItems.Select(orderItem =>
         {
             if (orderItem.Id == updatedOrderItem.Id)
 
@@ -44,19 +44,22 @@ public class OrderItemRepository : IOrderItemRepository
             }
             return orderItem;
         });
-        _OrderItems = orderItems;
+        _orderItems = orderItems;
         return updatedOrderItem;
 
     }
 
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         OrderItem? orderItem = FindOne(id);
         if (orderItem is null) return false;
 
-        var orderItems =_OrderItems.Where(orderItem => orderItem.Id != id);
-        _OrderItems=orderItems;
+        var orderItems = _orderItems.Where(orderItem => orderItem.Id != id);
+        _orderItems = orderItems;
         return true;
 
     }
+
+
+
 }

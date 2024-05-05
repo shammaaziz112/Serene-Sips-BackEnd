@@ -9,7 +9,6 @@ public class OrderRepository : IOrderRepository
     private IEnumerable<Order> _orders { get; set; }
     public OrderRepository()
     {
-
         _orders = new DatabaseContext().Orders;
     }
     public IEnumerable<Order> FindAll()
@@ -19,11 +18,8 @@ public class OrderRepository : IOrderRepository
     public Order? FindOne(string orderId)
     {
         Order? order = _orders.FirstOrDefault(order => order.Id == orderId);
-        if (order is not null)
-        {
-            return order;
-        }
-        else return null;
+        if (order is not null) return order;
+        return null;
     }
     public Order CreateOne(Order order)
     {

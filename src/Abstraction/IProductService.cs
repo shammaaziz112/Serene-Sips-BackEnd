@@ -11,8 +11,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     {
         public IEnumerable<ProductReadDto> FindAll();
         public ProductReadDto? FindOne(string name);
-        public ProductReadDto CreateOne(Product product);
-        public ProductReadDto? UpdateOne(string id, Product product);
+        public ProductReadDto CreateOne(ProductCreateDto product);
+        public ProductReadDto? UpdateOne(string id, ProductReadDto updatedReadProduct);
         public bool DeleteOne(string id);
 
     }

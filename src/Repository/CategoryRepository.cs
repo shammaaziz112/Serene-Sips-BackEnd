@@ -5,20 +5,20 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private IEnumerable<Category> _Categories { get; set; }
+    private IEnumerable<Category> _categories { get; set; }
     public CategoryRepository()
     {
-        _Categories = new DatabaseContext().Category;
+        _categories = new DatabaseContext().Category;
 
     }
     public IEnumerable<Category> FindAll()
     {
-        return _Categories;
+        return _categories;
     }
-    public Category? FindOne(string id)
+    public Category? FindOne(Guid id)
     {
 
-        Category? category = _Categories.FirstOrDefault(category => category.Id == category.Id);
+        Category? category = _categories.FirstOrDefault(category => category.Id == category.Id);
         if (category is not null)
         {
             return category;
@@ -28,30 +28,38 @@ public class CategoryRepository : ICategoryRepository
 
     public Category CreateOne(Category newCategory)
     {
-        _Categories.Append(newCategory);
+        _categories.Append(newCategory);
         return newCategory;
     }
-    public Category UpdateOne(Category UpdateCategory)
+    public Category UpdateOne(Category updateCategory)
     {
-        var category = _Categories.Select(category =>
+        var category = _categories.Select(category =>
      {
-         if (category.Name == UpdateCategory.Name)
+         if (category.Name == updateCategory.Name)
          {
-             return UpdateCategory;
+             return updateCategory;
          }
          return category;
      });
-        _Categories = category.ToList();
+        _categories = category.ToList();
 
-        return UpdateCategory;
+        return updateCategory;
     }
 
-public bool DeleteOne(string id)
+public bool DeleteOne(Guid id)
 {
     Category? category = FindOne(id);
     if (category is null) return false;
 
-    var Category =_Categories.Where(category => category.Id != id);
-    _Categories= Category;
+    var Category =_categories.Where(category => category.Id != id);
+    _categories= Category;
     return true;
 }}
+    
+
+
+
+
+
+
+

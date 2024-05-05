@@ -22,5 +22,6 @@ public class Address
         Street = street;
         Zip_code = zip_code;
     }
+    public Address() { }
 
 }

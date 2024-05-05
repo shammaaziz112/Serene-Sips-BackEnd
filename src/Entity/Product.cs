@@ -23,5 +23,6 @@ public class Product
         Quantity = quantity;
         Description = description;
     }
+    public Product() { }
 
 }

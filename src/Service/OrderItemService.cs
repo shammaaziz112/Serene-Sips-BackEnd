@@ -2,54 +2,63 @@ using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using AutoMapper;
+
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
 
-public class OrderItemService: IOrderItemService
-{
+    public class OrderItemService : IOrderItemService
+    {
+        private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IMapper _mapper;
 
-    private IOrderItemRepository _orderItemRepository;
-    private IMapper _mapper;
-    public OrderItemService(IOrderItemRepository orderItemRepository, IMapper mapper)
-    {
-        _orderItemRepository = orderItemRepository;
-        _mapper = mapper;
-    }
-    public IEnumerable<OrderItemReadDto> FindAll()
-    {
-        var orderItem = _orderItemRepository.FindAll();
-        var orderitemRead = orderItem.Select(_mapper.Map<OrderItemReadDto>);
-        return orderitemRead;
-    }
-
-    public OrderItemReadDto? FindOne(string id)
-    {
-        OrderItem? orderitem = _orderItemRepository.FindOne(id);
-        OrderItemReadDto? OrderItemRead = _mapper.Map<OrderItemReadDto>(orderitem);
-        return OrderItemRead;
-    }
-    public OrderItemReadDto CreateOne(OrderItem orderitem)
-    {
-        var createdOrderItem = _orderItemRepository.CreateOne(orderitem);
-        var OrderItemRead = _mapper.Map<OrderItemReadDto>(orderitem);
-        return OrderItemRead;
-    }
-    public OrderItemReadDto? UpdateOne(string id, OrderItem orderitem)
-    {
-        OrderItem? updatedorderitem =  _orderItemRepository.FindOne(id);
-        if (updatedorderitem is not null)
+        public OrderItemService(IOrderItemRepository orderItemRepository, IMapper mapper)
         {
-            updatedorderitem.Id = orderitem.Id;
-            var updatedOrderitemid =_orderItemRepository.UpdateOne(updatedorderitem);
-            var updatedOrderitemRead = _mapper.Map<OrderItemReadDto>(updatedOrderitemid);
-            return updatedOrderitemRead;
+            _orderItemRepository = orderItemRepository;
+            _mapper = mapper;
         }
-        else return null;
 
+        public IEnumerable<OrderItemReadDto> FindAll()
+        {
+            var orderItems = _orderItemRepository.FindAll();
+            var orderItemsRead = orderItems.Select(_mapper.Map<OrderItemReadDto>);
+            return orderItemsRead;
+        }
+
+
+        public OrderItemReadDto? FindOne (Guid id)
+        {
+
+            OrderItem ? orderItem =_orderItemRepository.FindOne(id);
+            OrderItemReadDto? orderItemRead =_mapper.Map<OrderItemReadDto>(orderItem);
+            return orderItemRead;
+        }
+
+        public OrderItemReadDto CreateOne(OrderItemReadDto OrderItem)
+
+        {
+            var newOrderItem=_mapper.Map<OrderItem>(OrderItem);
+            var createdOrderItem = _orderItemRepository.CreateOne(newOrderItem);
+            var createdOrderItemRead = _mapper.Map<OrderItemReadDto>(createdOrderItem);
+            return createdOrderItemRead;
+        }
+
+        public OrderItemReadDto? UpdateOne(Guid id, OrderItem orderItem)
+        {
+            var updatOrderItem = _orderItemRepository.FindOne(id);
+            if (updatOrderItem != null)
+            {
+                updatOrderItem.Quantity = orderItem.Quantity;
+                var updatedOrderItemAllInfo = _orderItemRepository.UpdateOne(updatOrderItem);
+                var updatedOrderItemRead = _mapper.Map<OrderItemReadDto>(updatedOrderItemAllInfo);
+                return updatedOrderItemRead;
+            }
+            else return null;
+            
+        }
+
+        public bool DeleteOne(Guid id)
+        {
+            return _orderItemRepository.DeleteOne(id);
+        }
     }
 
-    public bool DeleteOne(string id)
-    {
-        return _orderItemRepository.DeleteOne(id);
-    }
-}
 
