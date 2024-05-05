@@ -28,19 +28,19 @@ public class UserService : IUserService
     {
         var user = _userRepository.FindAll();
         var userRead = user.Select(_mapper.Map<UserReadDto>);
-        return userRead; 
+        return userRead;
     }
 
-    public UserReadDto? FindOne(string id)
+    public UserReadDto? FindOne(Guid id)
     {
         User? user = _userRepository.FindOne(id);
         UserReadDto? userRead = _mapper.Map<UserReadDto>(user);
         return userRead;
     }
-    public UserReadDto? UpdateOne(string email, User user)
+    public UserReadDto? UpdateOne(Guid id, User user)
     {
 
-        User? updatedUser = _userRepository.FindOne(email);
+        User? updatedUser = _userRepository.FindOne(id);
         if (updatedUser is not null)
         {
             updatedUser.FullName = user.FullName;
@@ -52,7 +52,7 @@ public class UserService : IUserService
         else return null;
     }
 
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         return _userRepository.DeleteOne(id);
     }
@@ -60,7 +60,7 @@ public class UserService : IUserService
     public UserReadDto? CreateOne(User user)
     {
         User? foundUser =
-         _userRepository.FindOne(user.Email);
+         _userRepository.FindOne(user.Id);
         if (foundUser is not null)
         {
             return null;

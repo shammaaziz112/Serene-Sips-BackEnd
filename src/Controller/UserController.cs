@@ -20,12 +20,12 @@ public class UserController : BaseController
         return _userService.FindAll();
     }
 
-    [HttpGet("{UserId}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    public ActionResult<UserReadDto?> FindOne(string userId)
+    public ActionResult<UserReadDto?> FindOne(Guid id)
     {
 
-        UserReadDto? foundProduct = _userService.FindOne(userId);
+        UserReadDto? foundProduct = _userService.FindOne(id);
         return Ok(foundProduct);
     }
 
@@ -42,12 +42,12 @@ public class UserController : BaseController
         return BadRequest();
     }
 
-    [HttpPatch("{UserId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<UserReadDto> UpdateOne(string email, User user)
+    public ActionResult<UserReadDto> UpdateOne(Guid id, User user)
     {
-        UserReadDto? updatedUser = _userService.UpdateOne(email, user);
+        UserReadDto? updatedUser = _userService.UpdateOne(id, user);
         if (updatedUser is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedUser);
@@ -57,7 +57,7 @@ public class UserController : BaseController
     [HttpDelete]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(string id, User user)
+    public ActionResult DeleteOne(Guid id, User user)
     {
         bool isDeleted = _userService.DeleteOne(id);
         if (!isDeleted)

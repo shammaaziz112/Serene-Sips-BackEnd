@@ -12,7 +12,7 @@ public class AddressController : BaseController
     }
 
     [HttpGet("{id}")]
-    public ActionResult<AddressReadDto?> FindOne(string id)
+    public ActionResult<AddressReadDto?> FindOne(Guid id)
     {
         AddressReadDto? foundAddress = _addressService.FindOne(id);
         return Ok(foundAddress);
@@ -32,7 +32,7 @@ public class AddressController : BaseController
         return _addressService.CreateOne(address);
     }
     [HttpPatch("{id}")]
-    public ActionResult<AddressReadDto> UpdateOne(string id, Address address)
+    public ActionResult<AddressReadDto> UpdateOne(Guid id, Address address)
     {
         AddressReadDto? updatedAddress = _addressService.UpdateOne(id, address);
         if (updatedAddress is not null)
@@ -43,7 +43,7 @@ public class AddressController : BaseController
     }
 
     [HttpDelete("{id}")]
-    public ActionResult DeleteOne(string id, Address address)
+    public ActionResult DeleteOne(Guid id)
     {
         bool isDeleted = _addressService.DeleteOne(id);
         if (!isDeleted)

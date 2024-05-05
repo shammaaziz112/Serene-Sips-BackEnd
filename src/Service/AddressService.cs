@@ -24,7 +24,7 @@ public class AddressService : IAddressService
         var addressRead = address.Select(_mapper.Map<AddressReadDto>);
         return addressRead;
     }
-    public AddressReadDto? FindOne(string id)
+    public AddressReadDto? FindOne(Guid id)
     {
         Address? address = _addressRepository.FindOne(id);
         AddressReadDto? addressRead = _mapper.Map<AddressReadDto>(address);
@@ -36,7 +36,7 @@ public class AddressService : IAddressService
         var addressRead = _mapper.Map<AddressReadDto>(Address);
         return addressRead;
     }
-    public AddressReadDto? UpdateOne(string id, Address address)
+    public AddressReadDto? UpdateOne(Guid id, Address address)
     {
         Address? updatedAddress = _addressRepository.FindOne(id);
         if (updatedAddress is not null)
@@ -49,7 +49,7 @@ public class AddressService : IAddressService
         }
         return null;
     }
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         return _addressRepository.DeleteOne(id);
     }
