@@ -16,10 +16,10 @@ public class CategoryController : BaseController
     {
         return Ok(_CategoryService.FindAll());
     }
-    [HttpGet("{categoryId}")]
-    public ActionResult<CategoryReadDto?> FindOne(Guid categoryId)
+    [HttpGet("{id}")]
+    public ActionResult<CategoryReadDto?> FindOne(Guid id)
     {
-        return Ok(_CategoryService.FindOne(categoryId));
+        return Ok(_CategoryService.FindOne(id));
     }
     [HttpPost()]
     [ProducesResponseType(StatusCodes.Status201Created)]

@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -5,10 +6,12 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private IEnumerable<Category> _categories { get; set; }
-    public CategoryRepository()
+    private DbSet<Category> _categories { get; set; }
+    private DatabaseContext _databaseContext;
+    public CategoryRepository(DatabaseContext databaseContext)
     {
-        _categories = new DatabaseContext().Category;
+        _databaseContext = databaseContext;
+        _categories = _databaseContext.Category;
 
     }
     public IEnumerable<Category> FindAll()
@@ -29,33 +32,26 @@ public class CategoryRepository : ICategoryRepository
     public Category CreateOne(Category newCategory)
     {
         _categories.Append(newCategory);
+        _databaseContext.SaveChanges();
         return newCategory;
     }
-    public Category UpdateOne(Category updateCategory)
+    public Category UpdateOne(Category updatedCategory)
     {
-        var category = _categories.Select(category =>
-     {
-         if (category.Name == updateCategory.Name)
-         {
-             return updateCategory;
-         }
-         return category;
-     });
-        _categories = category.ToList();
-
-        return updateCategory;
+        _categories.Update(updatedCategory);
+        _databaseContext.SaveChanges();
+        return updatedCategory;
     }
 
-public bool DeleteOne(Guid id)
-{
-    Category? category = FindOne(id);
-    if (category is null) return false;
+    public bool DeleteOne(Guid id)
+    {
+        Category? category = FindOne(id);
+        if (category is null) return false;
+        _categories.Remove(category);
+        _databaseContext.SaveChanges();
+        return true;
+    }
+}
 
-    var Category =_categories.Where(category => category.Id != id);
-    _categories= Category;
-    return true;
-}}
-    
 
 
 

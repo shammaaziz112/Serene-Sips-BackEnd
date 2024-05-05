@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -6,11 +7,13 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class OrderItemRepository : IOrderItemRepository
 {
-    private IEnumerable<OrderItem> _orderItems { get; set; }
+    private DatabaseContext _databaseContext;
+    private DbSet<OrderItem> _orderItems { get; set; }
 
-    public OrderItemRepository()
+    public OrderItemRepository(DatabaseContext databaseContext)
     {
-        _orderItems = new DatabaseContext().OrderItems;
+        _databaseContext = databaseContext;
+        _orderItems = databaseContext.OrderItems;
     }
 
     public IEnumerable<OrderItem> FindAll()
@@ -30,21 +33,14 @@ public class OrderItemRepository : IOrderItemRepository
     public OrderItem CreateOne(OrderItem orderItem)
     {
         _orderItems.Append(orderItem);
+        _databaseContext.SaveChanges();
         return orderItem;
     }
 
     public OrderItem UpdateOne(OrderItem updatedOrderItem)
     {
-        var orderItems = _orderItems.Select(orderItem =>
-        {
-            if (orderItem.Id == updatedOrderItem.Id)
-
-            {
-                return updatedOrderItem;
-            }
-            return orderItem;
-        });
-        _orderItems = orderItems;
+        _orderItems.Update(updatedOrderItem);
+        _databaseContext.SaveChanges();
         return updatedOrderItem;
 
     }
@@ -53,9 +49,8 @@ public class OrderItemRepository : IOrderItemRepository
     {
         OrderItem? orderItem = FindOne(id);
         if (orderItem is null) return false;
-
-        var orderItems = _orderItems.Where(orderItem => orderItem.Id != id);
-        _orderItems = orderItems;
+        _orderItems.Remove(orderItem);
+        _databaseContext.SaveChanges();
         return true;
 
     }
