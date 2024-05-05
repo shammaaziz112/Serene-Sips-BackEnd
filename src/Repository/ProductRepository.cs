@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -6,10 +7,12 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class ProductRepository : IProductRepository
 {
-    private IEnumerable<Product> _products { get; set; }
-    public ProductRepository()
+    private DbSet<Product> _products { get; set; }
+    private DatabaseContext _databaseContext;
+    public ProductRepository(DatabaseContext databaseContext)
     {
-        _products = new DatabaseContext().Products;
+        _databaseContext = databaseContext;
+        _products = databaseContext.Products;
     }
 
     public IEnumerable<Product> FindAll()
@@ -35,16 +38,7 @@ public class ProductRepository : IProductRepository
 
     public Product UpdateOne(Product updatedProduct)
     {
-        var products = _products.Select(product =>
-         {
-             if (product.Id != updatedProduct.Id)
-             {
-                 return product;
-             }
-             return updatedProduct;
-         });
-        _products = products;
-
+        _products.Update(updatedProduct);
         return updatedProduct;
     }
 
@@ -52,9 +46,7 @@ public class ProductRepository : IProductRepository
     {
         Product? foundProduct = FindOne(name);
         if (foundProduct is null) return false;
-
-        var products = _products.Where(product => product.Id != foundProduct.Id);
-        _products = products;
+        _products.Remove(foundProduct);
         return true;
     }
 }
