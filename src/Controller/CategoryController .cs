@@ -33,13 +33,13 @@ public class CategoryController : BaseController
         }
         return BadRequest();
     }
-    [HttpPatch("{categoryId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<CategoryReadDto> UpdateOne(Guid categoryId, [FromBody] Category category)
+    public ActionResult<CategoryReadDto> UpdateOne(Guid id, [FromBody] Category category)
     {
 
-        CategoryReadDto? updatedCategory = _CategoryService.UpdateOne(categoryId, category);
+        CategoryReadDto? updatedCategory = _CategoryService.UpdateOne(id, category);
         if (updatedCategory is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedCategory);
@@ -47,12 +47,12 @@ public class CategoryController : BaseController
         else return BadRequest();
     }
 
-    [HttpDelete("{categoryId}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(Guid categoryId)
+    public ActionResult DeleteOne(Guid id)
     {
-        bool isDeleted = _CategoryService.DeleteOne(categoryId);
+        bool isDeleted = _CategoryService.DeleteOne(id);
         if (!isDeleted)
 
         {

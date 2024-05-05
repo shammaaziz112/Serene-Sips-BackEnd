@@ -21,10 +21,10 @@ public class IOrderItemController : BaseController
         return Ok(_orderItemService.FindAll());
     }
 
-    [HttpGet("{orderItemId}")]
-    public ActionResult<OrderItemReadDto> FindOne(Guid orderItemId)
+    [HttpGet("{id}")]
+    public ActionResult<OrderItemReadDto> FindOne(Guid id)
     {
-        return Ok(_orderItemService.FindOne(orderItemId));
+        return Ok(_orderItemService.FindOne(id));
     }
 
     [HttpPost]
@@ -42,13 +42,13 @@ public class IOrderItemController : BaseController
         return BadRequest();
     }
 
-    [HttpPatch("{orderItemId}")]
+    [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderItemReadDto> UpdateOne(Guid orderItemId, [FromBody] OrderItem orderItem)
+    public ActionResult<OrderItemReadDto> UpdateOne(Guid id, [FromBody] OrderItem orderItem)
     {
 
-        OrderItemReadDto? updatedOrderItem = _orderItemService.UpdateOne(orderItemId, orderItem);
+        OrderItemReadDto? updatedOrderItem = _orderItemService.UpdateOne(id, orderItem);
         if (updatedOrderItem is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedOrderItem);
@@ -56,12 +56,12 @@ public class IOrderItemController : BaseController
         else return BadRequest();
     }
 
-    [HttpDelete("{orderItemId}")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(Guid orderItemId)
+    public ActionResult DeleteOne(Guid id)
     {
-        bool isDeleted = _orderItemService.DeleteOne(orderItemId);
+        bool isDeleted = _orderItemService.DeleteOne(id);
         if (!isDeleted)
         {
             return NotFound();
