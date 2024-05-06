@@ -10,6 +10,7 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     {
         public IEnumerable<Product> FindAll();
         public Product? FindOne(Guid id);
+        public Product? FindByCategory(Guid categoryId);
         public Product CreateOne(Product product);
         public Product UpdateOne(Product product);
         public bool DeleteOne(Guid id);
