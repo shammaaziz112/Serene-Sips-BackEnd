@@ -19,4 +19,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.DTO
         public string Status { get; set; }
         public double TotalPrice { set; get; }
     }
+    public class CheckoutDto
+    {
+        public Guid OrderId { get; set; }
+        public int Quantity { get; set; }
+        public Guid ProductId { get; set; }
+    }
 }

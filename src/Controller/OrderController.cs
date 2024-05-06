@@ -38,6 +38,14 @@ public class OrderController : BaseController
         return BadRequest();
     }
 
+    [HttpPost("{chechout}")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public ActionResult<OrderReadDto> Checkout([FromBody] OrderCreateDto order)
+    {
+        return Ok();
+    }
+
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
