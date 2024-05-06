@@ -1,25 +1,60 @@
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class OrderItemRepository : IOrderItemRepository
 {
-    public IEnumerable<OrderItem> OrderItem { get; set; }
+    private DatabaseContext _databaseContext;
+    private DbSet<OrderItem> _orderItems { get; set; }
 
-    public OrderItemRepository()
+    public OrderItemRepository(DatabaseContext databaseContext)
     {
-        OrderItem = new DatabaseContext().OrderItems;
-
+        _databaseContext = databaseContext;
+        _orderItems = databaseContext.OrderItems;
     }
+
     public IEnumerable<OrderItem> FindAll()
     {
-        return OrderItem;
+        return _orderItems;
     }
-    public OrderItem CreateOne(OrderItem orderitem)
+    public OrderItem? FindOne(Guid id)
     {
-        OrderItem.Append(orderitem);
-        return orderitem;
+        OrderItem? orderItem = _orderItems.FirstOrDefault(orderItem => orderItem.Id == id);
+        if (orderItem is not null)
+        {
+            return orderItem;
+        }
+        else return null;
     }
+
+    public OrderItem CreateOne(OrderItem orderItem)
+    {
+        _orderItems.Append(orderItem);
+        _databaseContext.SaveChanges();
+        return orderItem;
+    }
+
+    public OrderItem UpdateOne(OrderItem updatedOrderItem)
+    {
+        _orderItems.Update(updatedOrderItem);
+        _databaseContext.SaveChanges();
+        return updatedOrderItem;
+
+    }
+
+    public bool DeleteOne(Guid id)
+    {
+        OrderItem? orderItem = FindOne(id);
+        if (orderItem is null) return false;
+        _orderItems.Remove(orderItem);
+        _databaseContext.SaveChanges();
+        return true;
+
+    }
+
+
 
 }

@@ -1,70 +1,61 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Server;
-
 namespace sda_onsite_2_csharp_backend_teamwork.src.Repository;
 
 public class CategoryRepository : ICategoryRepository
 {
-    private IEnumerable<Category> _category { get; set; }
-    public CategoryRepository()
+    private DbSet<Category> _categories { get; set; }
+    private DatabaseContext _databaseContext;
+    public CategoryRepository(DatabaseContext databaseContext)
     {
-        _category = new DatabaseContext().Category;
+        _databaseContext = databaseContext;
+        _categories = _databaseContext.Category;
+
     }
     public IEnumerable<Category> FindAll()
     {
-        return _category;
+        return _categories;
     }
-    public Category? FindOne(string id)
+    public Category? FindOne(Guid id)
     {
-        return _category.FirstOrDefault((item) => item.Name == id);
+
+        Category? category = _categories.FirstOrDefault(category => category.Id == category.Id);
+        if (category is not null)
+        {
+            return category;
+        }
+        else return null;
     }
 
     public Category CreateOne(Category newCategory)
     {
-        _category.Append(newCategory);
+        _categories.Append(newCategory);
+        _databaseContext.SaveChanges();
         return newCategory;
     }
-    public Category UpdateOne(Category UpdateCategory)
+    public Category UpdateOne(Category updatedCategory)
     {
-        var category = _category.Select(category =>
-     {
-         if (category.Name == UpdateCategory.Name)
-         {
-             return UpdateCategory;
-         }
-         return category;
-     });
-        _category = category.ToList();
-
-        return UpdateCategory;
+        _categories.Update(updatedCategory);
+        _databaseContext.SaveChanges();
+        return updatedCategory;
     }
-    public bool DeleteOne(string id)
+
+    public bool DeleteOne(Guid id)
     {
         Category? category = FindOne(id);
-        if (category is not null) return false;
-        {
-            var categories = _category.Where(category => category.Id != id);
-            _category = categories;
-            return true;
-        }
-
-    }
-
-    public Category CreateOne(OrderItem orderitem)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Category UpdateOne(OrderItem orderitem)
-    {
-        throw new NotImplementedException();
+        if (category is null) return false;
+        _categories.Remove(category);
+        _databaseContext.SaveChanges();
+        return true;
     }
 }
+
+
+
+
+
+
 
 

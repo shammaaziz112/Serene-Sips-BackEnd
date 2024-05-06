@@ -28,6 +28,12 @@ public class ProductService : IProductService
         ProductReadDto? productRead = _mapper.Map<ProductReadDto>(product);
         return productRead;
     }
+    public ProductReadDto? FindByCategory(Guid categoryId)
+    {
+        Product? product = _productRepository.FindByCategory(categoryId);
+        ProductReadDto? productRead = _mapper.Map<ProductReadDto>(product);
+        return productRead;
+    }
 
     public ProductReadDto CreateOne(ProductCreateDto product)
     {
