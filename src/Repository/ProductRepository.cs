@@ -29,6 +29,15 @@ public class ProductRepository : IProductRepository
         }
         return product;
     }
+    public Product? FindByCategory(Guid categoryId)
+    {
+        Product? product = _products.FirstOrDefault(product => product.CategoryId == categoryId);
+        if (product is null)
+        {
+            return null;
+        }
+        return product;
+    }
 
     public Product CreateOne(Product product)
     {

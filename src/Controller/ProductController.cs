@@ -24,6 +24,12 @@ public class ProductController : BaseController
         ProductReadDto? foundProduct = _productService.FindOne(id);
         return Ok(foundProduct);
     }
+    [HttpGet("/search/{categoryId}")]
+    public ActionResult<ProductReadDto?> FindByCategory([FromRoute] Guid categoryId)
+    {
+        ProductReadDto? foundProduct = _productService.FindByCategory(categoryId);
+        return Ok(foundProduct);
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
