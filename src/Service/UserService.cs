@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
-using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.Utility;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
@@ -28,19 +22,19 @@ public class UserService : IUserService
     {
         var user = _userRepository.FindAll();
         var userRead = user.Select(_mapper.Map<UserReadDto>);
-        return userRead; 
+        return userRead;
     }
 
-    public UserReadDto? FindOne(string id)
+    public UserReadDto? FindOne(Guid id)
     {
         User? user = _userRepository.FindOne(id);
         UserReadDto? userRead = _mapper.Map<UserReadDto>(user);
         return userRead;
     }
-    public UserReadDto? UpdateOne(string email, User user)
+    public UserReadDto? UpdateOne(Guid id, User user)
     {
 
-        User? updatedUser = _userRepository.FindOne(email);
+        User? updatedUser = _userRepository.FindOne(id);
         if (updatedUser is not null)
         {
             updatedUser.FullName = user.FullName;
@@ -52,15 +46,15 @@ public class UserService : IUserService
         else return null;
     }
 
-    public bool DeleteOne(string id)
+    public bool DeleteOne(Guid id)
     {
         return _userRepository.DeleteOne(id);
     }
 
-    public UserReadDto? CreateOne(User user)
+    public UserReadDto? SignUp(User user)
     {
         User? foundUser =
-         _userRepository.FindOne(user.Email);
+         _userRepository.FindOne(user.Id);
         if (foundUser is not null)
         {
             return null;

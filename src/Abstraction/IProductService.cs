@@ -10,10 +10,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     public interface IProductService
     {
         public IEnumerable<ProductReadDto> FindAll();
-        public ProductReadDto? FindOne(string name);
+        public ProductReadDto? FindOne(Guid id);
         public ProductReadDto CreateOne(ProductCreateDto product);
-        public ProductReadDto? UpdateOne(string id, ProductReadDto updatedReadProduct);
-        public bool DeleteOne(string id);
+        public ProductReadDto? UpdateOne(Guid id, ProductReadDto updatedReadProduct);
+        public bool DeleteOne(Guid id);
 
     }
 }

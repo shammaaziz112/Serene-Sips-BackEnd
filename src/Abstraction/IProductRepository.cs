@@ -9,10 +9,10 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction
     public interface IProductRepository
     {
         public IEnumerable<Product> FindAll();
-        public Product? FindOne(string id);
+        public Product? FindOne(Guid id);
         public Product CreateOne(Product product);
         public Product UpdateOne(Product product);
-        public bool DeleteOne(string id);
+        public bool DeleteOne(Guid id);
 
     }
 }

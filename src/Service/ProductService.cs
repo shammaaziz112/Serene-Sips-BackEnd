@@ -22,9 +22,9 @@ public class ProductService : IProductService
         return productRead;
     }
 
-    public ProductReadDto? FindOne(string name)
+    public ProductReadDto? FindOne(Guid id)
     {
-        Product? product = _productRepository.FindOne(name);
+        Product? product = _productRepository.FindOne(id);
         ProductReadDto? productRead = _mapper.Map<ProductReadDto>(product);
         return productRead;
     }
@@ -37,9 +37,9 @@ public class ProductService : IProductService
         return productRead;
     }
 
-    public ProductReadDto? UpdateOne(string name, ProductReadDto updatedReadProduct)
+    public ProductReadDto? UpdateOne(Guid id, ProductReadDto updatedReadProduct)
     {
-        Product? updatedProduct = _productRepository.FindOne(name);
+        Product? updatedProduct = _productRepository.FindOne(id);
         if (updatedProduct is not null)
         {
             updatedProduct.Name = updatedReadProduct.Name;
@@ -53,8 +53,8 @@ public class ProductService : IProductService
         }
         else return null;
     }
-    public bool DeleteOne(string name)
+    public bool DeleteOne(Guid id)
     {
-        return _productRepository.DeleteOne(name);
+        return _productRepository.DeleteOne(id);
     }
 }

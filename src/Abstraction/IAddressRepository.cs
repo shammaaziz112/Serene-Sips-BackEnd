@@ -8,8 +8,8 @@ namespace sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 public interface IAddressRepository
 {
     public IEnumerable<Address> FindAll();
-    public Address? FindOne(string street);
+    public Address? FindOne(Guid id);
     public Address CreateOne(Address address);
     public Address? UpdateOne(Address updatedAddress);
-    public bool DeleteOne(string street);
+    public bool DeleteOne(Guid id);
 }

@@ -20,9 +20,9 @@ public class ProductRepository : IProductRepository
         return _products;
     }
 
-    public Product? FindOne(string name)
+    public Product? FindOne(Guid id)
     {
-        Product? product = _products.FirstOrDefault(product => product.Name == name);
+        Product? product = _products.FirstOrDefault(product => product.Id == id);
         if (product is null)
         {
             return null;
@@ -33,20 +33,23 @@ public class ProductRepository : IProductRepository
     public Product CreateOne(Product product)
     {
         _products.Append(product);
+        _databaseContext.SaveChanges();
         return product;
     }
 
     public Product UpdateOne(Product updatedProduct)
     {
         _products.Update(updatedProduct);
+        _databaseContext.SaveChanges();
         return updatedProduct;
     }
 
-    public bool DeleteOne(string name)
+    public bool DeleteOne(Guid id)
     {
-        Product? foundProduct = FindOne(name);
+        Product? foundProduct = FindOne(id);
         if (foundProduct is null) return false;
         _products.Remove(foundProduct);
+        _databaseContext.SaveChanges();
         return true;
     }
 }
