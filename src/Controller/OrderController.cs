@@ -25,25 +25,26 @@ public class OrderController : BaseController
         return Ok(_orderService.FindOne(id));
     }
 
-    [HttpPost]
-    [ProducesResponseType(StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderReadDto> CreateOne([FromBody] OrderCreateDto order)
-    {
-        if (order is not null)
-        {
-            var createdOrder = _orderService.CreateOne(order);
-            return CreatedAtAction(nameof(CreateOne), createdOrder);
-        }
-        return BadRequest();
-    }
+    // [HttpPost]
+    // [ProducesResponseType(StatusCodes.Status201Created)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // public ActionResult<OrderReadDto> CreateOne([FromBody] OrderCreateDto order)
+    // {
+    //     if (order is not null)
+    //     {
+    //         var createdOrder = _orderService.CreateOne(order);
+    //         return CreatedAtAction(nameof(CreateOne), createdOrder);
+    //     }
+    //     return BadRequest();
+    // }
 
-    [HttpPost("{chechout}")]
+    [HttpPost("checkout")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<OrderReadDto> Checkout([FromBody] OrderCreateDto order)
+    public ActionResult<OrderReadDto> Checkout([FromBody] List<CheckoutDto> checkoutList)
     {
-        return Ok();
+        if (checkoutList is null) return BadRequest();
+        return CreatedAtAction(nameof(Checkout), _orderService.Checkout(checkoutList));
     }
 
     [HttpPatch("{id}")]
