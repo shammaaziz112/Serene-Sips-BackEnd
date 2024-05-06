@@ -1,5 +1,8 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using AutoMapper;
+using Microsoft.IdentityModel.Tokens;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
@@ -18,7 +21,7 @@ public class UserService : IUserService
         _config = config;
         _mapper = mapper;
     }
-    public UserReadDto? SignIn(UserSignIn userSign)
+    public string? SignIn(UserSignIn userSign)
     {
         User? user = _userRepository.FindByEmail(userSign.Email);
         if (user is null) return null;
@@ -28,10 +31,33 @@ public class UserService : IUserService
         bool isCorrectPass = PasswordUtility.VerifyPassword(userSign.Password, user.Password, pepper);
         if (!isCorrectPass) return null;
 
-        UserReadDto userRead = _mapper.Map<UserReadDto>(user);
-        return userRead;
+        // UserReadDto userRead = _mapper.Map<UserReadDto>(user);
+        // return userRead;
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.Name, user.FullName),
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(ClaimTypes.Email, user.Email),
+        };
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:SigningKey"]!));
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+        var token = new JwtSecurityToken(
+            issuer: _config["Jwt:Issuer"],
+            audience: _config["Jwt:Audience"],
+            claims: claims,
+            expires: DateTime.Now.AddDays(7),
+            signingCredentials: creds
+        );
+
+        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return tokenString;
     }
+
+
+
+
     public IEnumerable<UserReadDto> FindAll()
     {
         var user = _userRepository.FindAll();
