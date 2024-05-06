@@ -6,49 +6,49 @@ using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
 public class CategoryService : ICategoryService
 {
-    private ICategoryRepository _CategoryRepository;
+    private ICategoryRepository _categoryRepository;
     private IMapper _mapper;
 
     public CategoryService(ICategoryRepository CategoryRepository, IMapper mapper)
     {
-        _CategoryRepository = CategoryRepository;
+        _categoryRepository = CategoryRepository;
         _mapper = mapper;
     }
     public IEnumerable<CategoryReadDto> FindAll()
     {
-        var categories = _CategoryRepository.FindAll();
+        var categories = _categoryRepository.FindAll();
         var categoriesRead = categories.Select(_mapper.Map<CategoryReadDto>);
         return categoriesRead;
     }
-    public CategoryReadDto? FindOne(string id)
+    public CategoryReadDto? FindOne(Guid id)
     {
-        Category? category = _CategoryRepository.FindOne(id);
+        Category? category = _categoryRepository.FindOne(id);
         CategoryReadDto? categoryRead = _mapper.Map<CategoryReadDto>(category);
         return categoryRead;
     }
     public CategoryReadDto CreateOne(Category category)
     {
-        var createdCatgory = _CategoryRepository.CreateOne(category);
-        var categoryRead = _mapper.Map<CategoryReadDto>(category);
+        var createdCatgory = _categoryRepository.CreateOne(category);
+        var categoryRead = _mapper.Map<CategoryReadDto>(createdCatgory);
         return categoryRead;
     }
-    public CategoryReadDto? UpdateOne(string name, Category newCategory)
+    
+    public CategoryReadDto? UpdateOne(Guid categoryId, Category newCategory)
     {
-        Category? updatedCategory = _CategoryRepository.FindOne(name);
+        Category? updatedCategory = _categoryRepository.FindOne(categoryId);
         if (updatedCategory is not null)
         {
             updatedCategory.Name = newCategory.Name;
             updatedCategory.Description = newCategory.Description;
-            var categoryUpdated = _CategoryRepository.UpdateOne(updatedCategory);
+            var categoryUpdated = _categoryRepository.UpdateOne(updatedCategory);
             var updatedCategoryRead = _mapper.Map<CategoryReadDto>(categoryUpdated);
             return updatedCategoryRead;
         }
         else return null;
-
     }
-    public bool DeleteOne(string id)
+
+    public bool DeleteOne(Guid id)
     {
-        return _CategoryRepository.DeleteOne(id);
+        return _categoryRepository.DeleteOne(id);
     }
-
 }
