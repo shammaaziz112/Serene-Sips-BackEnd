@@ -26,12 +26,13 @@ public class CategoryService : ICategoryService
         CategoryReadDto? categoryRead = _mapper.Map<CategoryReadDto>(category);
         return categoryRead;
     }
-    public CategoryReadDto  CreateOne(Category category)
+    public CategoryReadDto CreateOne(Category category)
     {
         var createdCatgory = _categoryRepository.CreateOne(category);
         var categoryRead = _mapper.Map<CategoryReadDto>(createdCatgory);
         return categoryRead;
     }
+    
     public CategoryReadDto? UpdateOne(Guid categoryId, Category newCategory)
     {
         Category? updatedCategory = _categoryRepository.FindOne(categoryId);
@@ -44,11 +45,10 @@ public class CategoryService : ICategoryService
             return updatedCategoryRead;
         }
         else return null;
-
     }
+
     public bool DeleteOne(Guid id)
     {
         return _categoryRepository.DeleteOne(id);
     }
-
 }

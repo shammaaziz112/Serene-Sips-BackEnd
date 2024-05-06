@@ -11,7 +11,7 @@ public class CategoryController : BaseController
     {
         _CategoryService = categoryService;
     }
-    [HttpGet()]
+    [HttpGet]
     public ActionResult<IEnumerable<CategoryReadDto>> FindAll()
     {
         return Ok(_CategoryService.FindAll());
@@ -21,7 +21,7 @@ public class CategoryController : BaseController
     {
         return Ok(_CategoryService.FindOne(id));
     }
-    [HttpPost()]
+    [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public ActionResult<CategoryReadDto> CreateOne([FromBody] Category category)
