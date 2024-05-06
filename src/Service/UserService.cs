@@ -6,7 +6,7 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Utility;
 
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
-//Map 
+
 public class UserService : IUserService
 {
     private IConfiguration _config;
@@ -84,8 +84,8 @@ public class UserService : IUserService
         user.Password = hashedPassword;
 
         var createUser = _mapper.Map<User>(user);
-        var createdUser = _userRepository.CreateOne(createUser);
-        var userRead = _mapper.Map<UserReadDto>(createdUser);
+        var newUser = _userRepository.CreateOne(createUser);
+        var userRead = _mapper.Map<UserReadDto>(newUser);
         return userRead;
     }
 }
