@@ -9,6 +9,7 @@ public class Address
 {
     [Required]
     public Guid Id { get; set; }
+    [Required]
     public Guid UserId { get; set; }
     [Required]
     public string Country { get; set; }
