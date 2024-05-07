@@ -30,9 +30,6 @@ public class UserService : IUserService
 
         bool isCorrectPass = PasswordUtility.VerifyPassword(userSign.Password, user.Password, pepper);
         if (!isCorrectPass) return null;
-
-        // UserReadDto userRead = _mapper.Map<UserReadDto>(user);
-        // return userRead;
         var claims = new[]
         {
             new Claim(ClaimTypes.Name, user.FullName),
@@ -49,22 +46,16 @@ public class UserService : IUserService
             expires: DateTime.Now.AddDays(7),
             signingCredentials: creds
         );
-
         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
         return tokenString;
     }
-
-
-
-
     public IEnumerable<UserReadDto> FindAll()
     {
         var user = _userRepository.FindAll();
         var userRead = user.Select(_mapper.Map<UserReadDto>);
         return userRead;
     }
-
     public UserReadDto? FindOne(Guid id)
     {
         User? user = _userRepository.FindOne(id);
@@ -79,7 +70,6 @@ public class UserService : IUserService
     }
     public UserReadDto? UpdateOne(Guid id, User user)
     {
-
         User? updatedUser = _userRepository.FindOne(id);
         if (updatedUser is not null)
         {
@@ -91,12 +81,10 @@ public class UserService : IUserService
         }
         else return null;
     }
-
     public bool DeleteOne(Guid id)
     {
         return _userRepository.DeleteOne(id);
     }
-
     public UserReadDto? SignUp(UserCreateDto user)
     {
         User? foundUser = _userRepository.FindByEmail(user.Email);
