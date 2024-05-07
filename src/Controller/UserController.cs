@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
@@ -13,7 +14,7 @@ public class UserController : BaseController
     }
 
     [HttpGet]
-    // [Authorize(Roles = "Admin")] > return later
+    // [Authorize(Roles = "Admin")]
     public IEnumerable<UserReadDto> FindAll()
     {
         return _userService.FindAll();
