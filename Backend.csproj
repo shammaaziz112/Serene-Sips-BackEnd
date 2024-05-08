@@ -19,10 +19,5 @@
     <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.5.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-    <Content Include="src\Controller\AddressController.cs" />
-    <Content Include="src\Controller\BaseController.cs" />
-    <Content Include="src\Abstraction\IAddressService.cs" />
-    <Content Include="src\Service\AddressService.cs" />
-    <Content Include="src\Service\UserService.cs" />
   </ItemGroup>
 </Project>
