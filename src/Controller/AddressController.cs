@@ -17,6 +17,11 @@ public class AddressController : BaseController
     public ActionResult<AddressReadDto?> FindOne(Guid id)
     {
         AddressReadDto? foundAddress = _addressService.FindOne(id);
+
+        if (foundAddress is null) {
+        throw new NullReferenceException();
+        }
+
         return Ok(foundAddress);
     }
 
