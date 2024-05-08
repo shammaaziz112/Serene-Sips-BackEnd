@@ -7,13 +7,14 @@ using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 namespace Backend.Migrations
 {
     /// <inheritdoc />
-    public partial class userrole : Migration
+    public partial class db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
-                .Annotation("Npgsql:Enum:role", "customer,admin");
+                .Annotation("Npgsql:Enum:role", "customer,admin")
+                .Annotation("Npgsql:Enum:status", "pending,approved,canceled,preparing,shipped,delivered");
 
             migrationBuilder.CreateTable(
                 name: "category",
@@ -96,7 +97,7 @@ namespace Backend.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     address_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    status = table.Column<int>(type: "integer", nullable: false),
+                    status = table.Column<Status>(type: "status", nullable: false),
                     order_date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     total_price = table.Column<double>(type: "double precision", nullable: false)
                 },

@@ -13,8 +13,8 @@ using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 namespace Backend.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240507090142_user-role")]
-    partial class userrole
+    [Migration("20240508075116_db")]
+    partial class db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,6 +25,7 @@ namespace Backend.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "role", new[] { "customer", "admin" });
+            NpgsqlModelBuilderExtensions.HasPostgresEnum(modelBuilder, "status", new[] { "pending", "approved", "canceled", "preparing", "shipped", "delivered" });
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("sda_onsite_2_csharp_backend_teamwork.src.Entity.Address", b =>
@@ -105,8 +106,8 @@ namespace Backend.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasColumnName("order_date");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer")
+                    b.Property<Status>("Status")
+                        .HasColumnType("status")
                         .HasColumnName("status");
 
                     b.Property<double>("TotalPrice")
