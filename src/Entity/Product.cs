@@ -20,7 +20,7 @@ public class Product
     [Required]
     public int Quantity { get; set; }
     public string Description { get; set; }
-    public IEnumerable<OrderItem> OrderItems { get; set; } //*
+    public IEnumerable<OrderItem> OrderItems { get; set; }
 
 
 }
