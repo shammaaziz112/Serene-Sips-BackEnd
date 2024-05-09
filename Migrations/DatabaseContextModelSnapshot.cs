@@ -51,9 +51,8 @@ namespace Backend.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<string>("Zip_code")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("Zip_code")
+                        .HasColumnType("integer")
                         .HasColumnName("zip_code");
 
                     b.HasKey("Id")
@@ -227,9 +226,8 @@ namespace Backend.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text")
+                    b.Property<int>("Phone")
+                        .HasColumnType("integer")
                         .HasColumnName("phone");
 
                     b.Property<Role>("Role")
