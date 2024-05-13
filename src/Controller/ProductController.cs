@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
@@ -44,6 +45,7 @@ public class ProductController : BaseController
         return BadRequest();
     }
 
+    [Authorize(Roles = "admin")]
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

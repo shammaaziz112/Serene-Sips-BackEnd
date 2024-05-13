@@ -1,8 +1,12 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
+using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 using sda_onsite_2_csharp_backend_teamwork.src.Middlewares;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
@@ -15,6 +19,18 @@ builder.Services.AddControllers();
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
 builder.Services.AddDbContext<DatabaseContext>();
+
+// configuring DB
+var _config = builder.Configuration;
+var dataSourceBuilder = new NpgsqlDataSourceBuilder(@$"Host={_config["Db:Host"]};Username={_config["Db:Username"]};Database={_config["Db:Database"]};Password={_config["Db:Password"]}");
+dataSourceBuilder.MapEnum<Role>();
+dataSourceBuilder.MapEnum<Status>();
+
+var dataSource = dataSourceBuilder.Build();
+builder.Services.AddDbContext<DatabaseContext>((options) =>
+{
+    options.UseNpgsql(dataSource).UseSnakeCaseNamingConvention();
+});
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,6 +57,18 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 builder.Services.AddScoped<CustomErrorMiddleware>();
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(Options =>
+{
+    Options.AddPolicy(name:
+    MyAllowSpecificOrigins,
+    policy =>
+    {
+        policy.WithOrigins
+        (builder.Configuration["Cors:Origin"]!);
+    });
+});
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
@@ -73,6 +101,7 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 
