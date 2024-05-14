@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 

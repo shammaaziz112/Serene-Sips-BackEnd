@@ -6,30 +6,30 @@ using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
 public class CategoryController : BaseController
 {
-    private ICategoryService _CategoryService;
+    private ICategoryService _categoryService;
     public CategoryController(ICategoryService categoryService)
     {
-        _CategoryService = categoryService;
+        _categoryService = categoryService;
     }
     [HttpGet]
     public ActionResult<IEnumerable<CategoryReadDto>> FindAll()
     {
-        return Ok(_CategoryService.FindAll());
+        return Ok(_categoryService.FindAll());
     }
     [HttpGet("{id}")]
     public ActionResult<CategoryReadDto?> FindOne(Guid id)
     {
-        return Ok(_CategoryService.FindOne(id));
+        return Ok(_categoryService.FindOne(id));
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<CategoryReadDto> CreateOne([FromBody] Category category)
+    public ActionResult<CategoryReadDto> CreateOne([FromBody] CategoryCreateDto category)
     {
         if (category is not null)
         {
-            var createdUser = _CategoryService.CreateOne(category);
-            return CreatedAtAction(nameof(CreateOne), createdUser);
+            var createdCategory = _categoryService.CreateOne(category);
+            return CreatedAtAction(nameof(CreateOne), createdCategory);
         }
         return BadRequest();
     }
@@ -39,7 +39,7 @@ public class CategoryController : BaseController
     public ActionResult<CategoryReadDto> UpdateOne(Guid id, [FromBody] Category category)
     {
 
-        CategoryReadDto? updatedCategory = _CategoryService.UpdateOne(id, category);
+        CategoryReadDto? updatedCategory = _categoryService.UpdateOne(id, category);
         if (updatedCategory is not null)
         {
             return CreatedAtAction(nameof(UpdateOne), updatedCategory);
@@ -52,7 +52,7 @@ public class CategoryController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult DeleteOne(Guid id)
     {
-        bool isDeleted = _CategoryService.DeleteOne(id);
+        bool isDeleted = _categoryService.DeleteOne(id);
         if (!isDeleted)
 
         {

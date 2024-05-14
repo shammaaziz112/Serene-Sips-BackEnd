@@ -7,7 +7,7 @@ using Npgsql;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Database;
 using sda_onsite_2_csharp_backend_teamwork.src.Enums;
-using sda_onsite_2_csharp_backend_teamwork.src.Middlewares;
+// using sda_onsite_2_csharp_backend_teamwork.src.Middlewares;
 using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.Server;
 using sda_onsite_2_csharp_backend_teamwork.src.Service;
@@ -17,8 +17,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-
-builder.Services.AddDbContext<DatabaseContext>();
 
 // configuring DB
 var _config = builder.Configuration;
@@ -56,18 +54,20 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddScoped<CustomErrorMiddleware>();
+// builder.Services.AddScoped<CustomErrorMiddleware>();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-builder.Services.AddCors(Options =>
+builder.Services.AddCors(options =>
 {
-    Options.AddPolicy(name:
-    MyAllowSpecificOrigins,
-    policy =>
-    {
-        policy.WithOrigins
-        (builder.Configuration["Cors:Origin"]!);
-    });
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins(builder.Configuration["Cors:Origin"]!)
+                          .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .SetIsOriginAllowed((host) => true)
+                            .AllowCredentials();
+                      });
 });
 
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
@@ -90,7 +90,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-app.UseMiddleware<CustomErrorMiddleware>();
+// app.UseMiddleware<CustomErrorMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

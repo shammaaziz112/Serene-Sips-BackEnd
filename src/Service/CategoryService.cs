@@ -1,7 +1,6 @@
 using AutoMapper;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
-using sda_onsite_2_csharp_backend_teamwork.src.Repository;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 namespace sda_onsite_2_csharp_backend_teamwork.src.Service;
 public class CategoryService : ICategoryService
@@ -26,13 +25,14 @@ public class CategoryService : ICategoryService
         CategoryReadDto? categoryRead = _mapper.Map<CategoryReadDto>(category);
         return categoryRead;
     }
-    public CategoryReadDto CreateOne(Category category)
+    public CategoryReadDto CreateOne(CategoryCreateDto category)
     {
-        var createdCatgory = _categoryRepository.CreateOne(category);
-        var categoryRead = _mapper.Map<CategoryReadDto>(createdCatgory);
+        var newCatgory = _mapper.Map<Category>(category);
+        var createdCategory = _categoryRepository.CreateOne(newCatgory);
+        var categoryRead = _mapper.Map<CategoryReadDto>(createdCategory);
         return categoryRead;
     }
-    
+
     public CategoryReadDto? UpdateOne(Guid categoryId, Category newCategory)
     {
         Category? updatedCategory = _categoryRepository.FindOne(categoryId);

@@ -12,7 +12,7 @@ public class ProductRepository : IProductRepository
     public ProductRepository(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
-        _products = databaseContext.Products;
+        _products = _databaseContext.Products;
     }
 
     public IEnumerable<Product> FindAll()
@@ -39,11 +39,11 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public Product CreateOne(Product product)
+    public Product CreateOne(Product newProduct)
     {
-        _products.Add(product);
+        _products.Add(newProduct);
         _databaseContext.SaveChanges();
-        return product;
+        return newProduct;
     }
 
     public Product UpdateOne(Product updatedProduct)
