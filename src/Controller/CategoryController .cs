@@ -4,10 +4,10 @@ using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-public class CategoryController : BaseController
+public class CategorieController : BaseController
 {
     private ICategoryService _categoryService;
-    public CategoryController(ICategoryService categoryService)
+    public CategorieController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
     }

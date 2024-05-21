@@ -14,9 +14,9 @@ public class ProductController : BaseController
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<ProductReadDto>> FindAll()
+    public ActionResult<IEnumerable<ProductReadDto>> FindAll([FromQuery(Name = "searchBy")] string? searchBy)
     {
-        return Ok(_productService.FindAll());
+        return Ok(_productService.FindAll(searchBy));
     }
 
     [HttpGet("{id}")]
@@ -45,7 +45,7 @@ public class ProductController : BaseController
         return BadRequest();
     }
 
-    [Authorize(Roles = "admin")]
+    // [Authorize(Roles = "admin")]
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
