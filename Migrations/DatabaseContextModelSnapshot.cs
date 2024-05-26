@@ -51,8 +51,9 @@ namespace Backend.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
-                    b.Property<int>("Zip_code")
-                        .HasColumnType("integer")
+                    b.Property<string>("Zip_code")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("zip_code");
 
                     b.HasKey("Id")

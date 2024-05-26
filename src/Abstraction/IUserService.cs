@@ -9,7 +9,7 @@ public interface IUserService
     public UserReadDto? FindOne(Guid id);
     public UserReadDto? SignUp(UserCreateDto user);
     public string? SignIn(UserSignIn userSign);
-    public UserReadDto? UpdateOne(Guid id, User user);
+    public UserReadDto? UpdateOne(Guid id, UserEditDto user);
     public bool DeleteOne(Guid id);
-     public UserReadDto? FindByEmail(string Email);
+    public UserReadDto? FindByEmail(string Email);
 }

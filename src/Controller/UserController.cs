@@ -63,7 +63,7 @@ public class UserController : BaseController
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<UserReadDto> UpdateOne(Guid id, User user)
+    public ActionResult<UserReadDto> UpdateOne(Guid id, UserEditDto user)
     {
         UserReadDto? updatedUser = _userService.UpdateOne(id, user);
         if (updatedUser is not null)
@@ -73,10 +73,10 @@ public class UserController : BaseController
         else return BadRequest();
     }
 
-    [HttpDelete]
-    [ProducesResponseType(StatusCodes.Status201Created)]
+    [HttpDelete("{id}")]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public ActionResult DeleteOne(Guid id, User user)
+    public ActionResult DeleteOne([FromRoute] Guid id)
     {
         bool isDeleted = _userService.DeleteOne(id);
         if (!isDeleted)

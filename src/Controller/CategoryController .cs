@@ -2,24 +2,25 @@ using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.Controller;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
-using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+
 namespace sdaonsite_2_csharp_backend_teamwork.src.Controller;
-public class CategorieController : BaseController
+[Route("api/v1/categories")]
+public class CategoryController : BaseController
 {
-    private ICategoryService _categoryService;
-    public CategorieController(ICategoryService categoryService)
+    private ICategoryService _CategoryService;
+    public CategoryController(ICategoryService categoryService)
     {
-        _categoryService = categoryService;
+        _CategoryService = categoryService;
     }
     [HttpGet]
     public ActionResult<IEnumerable<CategoryReadDto>> FindAll()
     {
-        return Ok(_categoryService.FindAll());
+        return Ok(_CategoryService.FindAll());
     }
     [HttpGet("{id}")]
-    public ActionResult<CategoryReadDto?> FindOne(Guid id)
+    public ActionResult<CategoryReadDto?> FindOne([FromRoute] Guid id)
     {
-        return Ok(_categoryService.FindOne(id));
+        return Ok(_CategoryService.FindOne(id));
     }
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
@@ -28,23 +29,21 @@ public class CategorieController : BaseController
     {
         if (category is not null)
         {
-            var createdCategory = _categoryService.CreateOne(category);
-            return CreatedAtAction(nameof(CreateOne), createdCategory);
+            var createdUser = _CategoryService.CreateOne(category);
+            return CreatedAtAction(nameof(CreateOne), createdUser);
         }
         return BadRequest();
     }
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public ActionResult<CategoryReadDto> UpdateOne(Guid id, [FromBody] Category category)
+    public ActionResult<CategoryReadDto> UpdateOne(Guid id, [FromBody] CategoryCreateDto category)
     {
 
-        CategoryReadDto? updatedCategory = _categoryService.UpdateOne(id, category);
-        if (updatedCategory is not null)
-        {
-            return CreatedAtAction(nameof(UpdateOne), updatedCategory);
-        }
-        else return BadRequest();
+        CategoryReadDto? updatedCategory = _CategoryService.UpdateOne(id, category);
+        if (updatedCategory is null) return BadRequest();
+        return CreatedAtAction(nameof(UpdateOne), updatedCategory);
+
     }
 
     [HttpDelete("{id}")]
@@ -52,7 +51,7 @@ public class CategorieController : BaseController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public ActionResult DeleteOne(Guid id)
     {
-        bool isDeleted = _categoryService.DeleteOne(id);
+        bool isDeleted = _CategoryService.DeleteOne(id);
         if (!isDeleted)
 
         {

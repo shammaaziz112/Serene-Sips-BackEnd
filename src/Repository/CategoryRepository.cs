@@ -21,12 +21,12 @@ public class CategoryRepository : ICategoryRepository
     public Category? FindOne(Guid id)
     {
 
-        Category? category = _categories.FirstOrDefault(category => category.Id == category.Id);
-        if (category is not null)
+        Category? category = _categories.FirstOrDefault(category => category.Id == id);
+        if (category is null)
         {
-            return category;
+            return null;
         }
-        else return null;
+        return category;
     }
 
     public Category CreateOne(Category newCategory)
@@ -44,18 +44,10 @@ public class CategoryRepository : ICategoryRepository
 
     public bool DeleteOne(Guid id)
     {
-        Category? category = FindOne(id);
-        if (category is null) return false;
-        _categories.Remove(category);
+        Category? foundCategory = FindOne(id);
+        if (foundCategory is null) return false;
+        _categories.Remove(foundCategory);
         _databaseContext.SaveChanges();
         return true;
     }
 }
-
-
-
-
-
-
-
-

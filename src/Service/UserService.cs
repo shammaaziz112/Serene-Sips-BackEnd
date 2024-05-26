@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
 using sda_onsite_2_csharp_backend_teamwork.src.Entity;
+using sda_onsite_2_csharp_backend_teamwork.src.Enums;
 using sda_onsite_2_csharp_backend_teamwork.src.Exceptions;
 using sda_onsite_2_csharp_backend_teamwork.src.Utility;
 
@@ -78,13 +79,15 @@ public class UserService : IUserService
         UserReadDto? userRead = _mapper.Map<UserReadDto>(user);
         return userRead;
     }
-    public UserReadDto? UpdateOne(Guid id, User user)
+    public UserReadDto? UpdateOne(Guid id, UserEditDto user)
     {
         User? updatedUser = _userRepository.FindOne(id);
         if (updatedUser is not null)
         {
             updatedUser.FullName = user.FullName;
             updatedUser.Phone = user.Phone;
+            updatedUser.Email = user.Email;
+            updatedUser.Role = user.Role == "Admin" ? Role.Admin : Role.Customer;
             var userAllInfo = _userRepository.UpdateOne(updatedUser);
             var userRead = _mapper.Map<UserReadDto>(userAllInfo);
             return userRead;
