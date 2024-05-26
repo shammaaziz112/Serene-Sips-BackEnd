@@ -227,8 +227,9 @@ namespace Backend.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password");
 
-                    b.Property<int>("Phone")
-                        .HasColumnType("integer")
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text")
                         .HasColumnName("phone");
 
                     b.Property<Role>("Role")
