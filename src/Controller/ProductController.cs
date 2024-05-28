@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using sda_onsite_2_csharp_backend_teamwork.src.Abstraction;
 using sda_onsite_2_csharp_backend_teamwork.src.DTO;
@@ -25,11 +24,11 @@ public class ProductController : BaseController
         ProductReadDto? foundProduct = _productService.FindOne(id);
         return Ok(foundProduct);
     }
-    [HttpGet("/search/{categoryId}")]
-    public ActionResult<ProductReadDto?> FindByCategory([FromRoute] Guid categoryId)
+    [HttpGet("section/{id}")]
+    public ActionResult<IEnumerable<ProductReadDto?>> FindByCategory([FromRoute] Guid id)
     {
-        ProductReadDto? foundProduct = _productService.FindByCategory(categoryId);
-        return Ok(foundProduct);
+        var foundProducts = _productService.FindByCategory(id);
+        return Ok(foundProducts);
     }
 
     [HttpPost]
@@ -45,7 +44,6 @@ public class ProductController : BaseController
         return BadRequest();
     }
 
-    // [Authorize(Roles = "admin")]
     [HttpPatch("{id}")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

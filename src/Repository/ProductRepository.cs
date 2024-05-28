@@ -12,7 +12,7 @@ public class ProductRepository : IProductRepository
     public ProductRepository(DatabaseContext databaseContext)
     {
         _databaseContext = databaseContext;
-        _products = _databaseContext.Products;
+        _products = databaseContext.Products;
     }
 
     public IEnumerable<Product> FindAll()
@@ -29,9 +29,9 @@ public class ProductRepository : IProductRepository
         }
         return product;
     }
-    public Product? FindByCategory(Guid categoryId)
+    public IEnumerable<Product>? FindByCategory(Guid categoryId)
     {
-        Product? product = _products.FirstOrDefault(product => product.CategoryId == categoryId);
+        var product = _products.Where(product => product.CategoryId == categoryId);
         if (product is null)
         {
             return null;
@@ -39,11 +39,11 @@ public class ProductRepository : IProductRepository
         return product;
     }
 
-    public Product CreateOne(Product newProduct)
+    public Product CreateOne(Product product)
     {
-        _products.Add(newProduct);
+        _products.Add(product);
         _databaseContext.SaveChanges();
-        return newProduct;
+        return product;
     }
 
     public Product UpdateOne(Product updatedProduct)
